@@ -13,9 +13,14 @@ Option<FileInfo> templatePath = new("--template", "-t")
     Description = "The template file location"
 };
 
+//todo use LangExt Options (Optional system saved in gist?) instead of this hack
+var stdoutFlag = $"TO-STDOUT-{new Random().GetString(letters, 10)}";
+
 Option<FileInfo> outputPath = new("--output", "-o")
 {
-    Description = "Where to save the output"
+    Description = "Where to save the output",
+    DefaultValueFactory = _ => new FileInfo(stdoutFlag),
+    Required = false
 };
 
 Option<uint> typesCount = new("--number", "-n")
@@ -24,6 +29,7 @@ Option<uint> typesCount = new("--number", "-n")
     DefaultValueFactory = _ => 5,
     Required = false
 };
+
 var program = Cmd
     .AddOption(templatePath)
     .AddOption(outputPath)
@@ -35,11 +41,18 @@ var program = Cmd
             var fullInputFile = File.ReadAllLines(input.FullName);
             var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
             var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
-            File.WriteAllText(output.FullName, string.Join(Environment.NewLine, 
-                generatedTypes.Prepend(Environment.NewLine)
-                    .Prepend(fullInputFile[2])
+            var fullOutput = string.Join(Environment.NewLine, 
+                generatedTypes.Prepend(fullInputFile[2])
                     .Prepend(fullInputFile[1])
-                    .Prepend(fullInputFile[0])));
+                    .Prepend(fullInputFile[0]));
+            if (output.Name ==  stdoutFlag)
+            {
+                Console.WriteLine(fullOutput);
+            }
+            else
+            {
+                File.WriteAllText(output.FullName, fullOutput);
+            }
             return 0;
         })
     .AsRoot();
