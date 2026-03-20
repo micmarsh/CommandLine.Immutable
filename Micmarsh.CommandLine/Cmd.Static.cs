@@ -15,7 +15,7 @@ public static class Cmd
         foreach (var opt in command.Options) root.Options.Add(opt);
         foreach (var arg in command.Arguments) root.Arguments.Add(arg);
         foreach (var sub in command.Subcommands) root.Subcommands.Add(sub);
-        //todo arguments and other things?
+        root.Action = command.Action;
         return root;
     }
 }
