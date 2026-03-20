@@ -5,10 +5,10 @@ namespace Micmarsh.CommandLine.Generator;
 
 public readonly record struct CmdTemplate<PLACEHOLDER>(Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands)
 {
-    public CmdTemplate<PLACEHOLDER, Next> AddOpt<Next>(Option<Next> next) => 
+    public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
         new(placeholderFields, new Opt<Next>(next), SubCommands);
     
-    public CmdTemplate<PLACEHOLDER, Next> AddArg<Next>(Argument<Next> next) => 
+    public CmdTemplate<PLACEHOLDER, Next> AddArgument<Next>(Argument<Next> next) => 
         new(placeholderFields, new Arg<Next>(next), SubCommands);
 
     public Command SetAction(string name, string description, Func<PLACEHOLDER, int> action)

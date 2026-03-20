@@ -49,9 +49,9 @@ string GenerateType(string template, int num)
     var typeParams = Enumerable.Range(0, num).Select(i => uppercase[i]);
     
     var valueLookups = Enumerable.Range(0, num)
-        .Select(i => $"self.input{i}.GetValue(parseResult)");
+        .Select(i => $"\t\t\tself.input{i}.GetValue(parseResult)");
     var inputAdds = Enumerable.Range(0, num)
-        .Select(i => $"input{i}.AddTo(result);");
+        .Select(i => $"\t\tinput{i}.AddTo(result);");
     
     var fields = Enumerable.Range(0, num).Select(i => $"input{i}");
     var parsedVars = Enumerable.Range(0, num).Select(i => lowercase[i]);
