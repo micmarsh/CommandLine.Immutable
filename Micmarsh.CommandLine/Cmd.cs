@@ -1,150 +1,150 @@
-﻿namespace Micmarsh.CommandLine;
-
 using System.CommandLine;
 
-public record Cmd<A>(Option<A> option, IEnumerable<Command> SubCommands)
+namespace Micmarsh.CommandLine.Generator;
+
+
+// Script drops first three lines, adjust if any more imports are ever added!
+
+public readonly record struct Cmd<A>(Input<A> input0, IEnumerable<Command> SubCommands)
 {
-    public Cmd<A, B> AddOption<B>(Option<B> option2) => new(option, option2, SubCommands);
+    public Cmd<A, Next> AddOption<Next>(Option<Next> next) => 
+        new(input0, new Opt<Next>(next), SubCommands);
+    
+    public Cmd<A, Next> AddArgument<Next>(Argument<Next> next) => 
+        new(input0, new Arg<Next>(next), SubCommands);
 
-    public Command SetAction(string name, string description, Func<A, int> action) =>
-        SetAction(name, description, (a, _) => Task.FromResult(action(a)));
-
+    public Command SetAction(string name, string description, Func<A, int> action)
+        => SetAction(name, description, (a, _) => Task.FromResult(action(a)));
+    
     public Command SetAction(string name, string description, Func<A, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option};
-        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option), ct));
+        var result = new Command(name, description);
+        		input0.AddTo(result);
+        var self = this;
+        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
     
-    public Cmd<A> AddSub(Command cmd) => new(option, SubCommands.Append(cmd));
+    public Cmd<A> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
+// Script drops first three lines, adjust if any more imports are ever added!
 
-public record Cmd<A, B>(Option<A> option1, Option<B> option2, IEnumerable<Command> SubCommands)
+public readonly record struct Cmd<A, B>(Input<A> input0, Input<B> input1, IEnumerable<Command> SubCommands)
 {
-    public Cmd<A, B, C> AddOption<C>(Option<C> option3) =>
-        new(option1, option2, option3, SubCommands);
+    public Cmd<A, B, Next> AddOption<Next>(Option<Next> next) => 
+        new(input0, input1, new Opt<Next>(next), SubCommands);
+    
+    public Cmd<A, B, Next> AddArgument<Next>(Argument<Next> next) => 
+        new(input0, input1, new Arg<Next>(next), SubCommands);
 
-    public Command SetAction(string name, string description, Func<A, B, int> action) =>
-        SetAction(name, description, (a, b, _) => Task.FromResult(action(a, b)));
-
+    public Command SetAction(string name, string description, Func<A, B, int> action)
+        => SetAction(name, description, (a, b, _) => Task.FromResult(action(a, b)));
+    
     public Command SetAction(string name, string description, Func<A, B, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option1, option2};
-        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
-                                                parseResult.GetRequiredValue(option2),
-                                                ct));
+        var result = new Command(name, description);
+        		input0.AddTo(result);
+		input1.AddTo(result);
+        var self = this;
+        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
+			self.input1.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
     
-    internal IEnumerable<Command> SubCommands { get; init; } = [];
-
-    public Cmd<A, B> AddSub(Command cmd) => new(option1, option2, SubCommands.Append(cmd));
-
+    public Cmd<A, B> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
+// Script drops first three lines, adjust if any more imports are ever added!
 
-public record Cmd<A, B, C>(Option<A> option1, Option<B> option2, Option<C> option3 , IEnumerable<Command> SubCommands)
+public readonly record struct Cmd<A, B, C>(Input<A> input0, Input<B> input1, Input<C> input2, IEnumerable<Command> SubCommands)
 {
-    public Cmd<A, B, C, D> AddOption<D>(Option<D> option4) =>
-        new(option1, option2, option3, option4, SubCommands);
+    public Cmd<A, B, C, Next> AddOption<Next>(Option<Next> next) => 
+        new(input0, input1, input2, new Opt<Next>(next), SubCommands);
     
-    public Command SetAction(string name, string description, Func<A, B, C, int> action) =>
-        SetAction(name, description, (a, b, c, _) => Task.FromResult(action(a, b, c)));
+    public Cmd<A, B, C, Next> AddArgument<Next>(Argument<Next> next) => 
+        new(input0, input1, input2, new Arg<Next>(next), SubCommands);
+
+    public Command SetAction(string name, string description, Func<A, B, C, int> action)
+        => SetAction(name, description, (a, b, c, _) => Task.FromResult(action(a, b, c)));
     
     public Command SetAction(string name, string description, Func<A, B, C, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option1, option2, option3};
-        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
-            parseResult.GetRequiredValue(option2),
-            parseResult.GetRequiredValue(option3),
-            ct));
+        var result = new Command(name, description);
+        		input0.AddTo(result);
+		input1.AddTo(result);
+		input2.AddTo(result);
+        var self = this;
+        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
+			self.input1.GetValue(parseResult),
+			self.input2.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
-    internal IEnumerable<Command> SubCommands { get; init; } = [];
-
-    public Cmd<A, B, C> AddSub(Command cmd) => new(option1, option2, option3, SubCommands.Append(cmd));
-
-};
-
-
-public record Cmd<A, B, C, D>(Option<A> option1, Option<B> option2, Option<C> option3, 
-    Option<D> option4, IEnumerable<Command> SubCommands)
-{
-    public Cmd<A, B, C, D, E> AddOption<E>(Option<E> option5) =>
-        new(option1, option2, option3, option4, option5, SubCommands);
     
-    public Command SetAction(string name, string description, Func<A, B, C, D, int> action) =>
-        SetAction(name, description, (a, b, c, d, _) => Task.FromResult(action(a, b, c, d)));
+    public Cmd<A, B, C> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+};
+// Script drops first three lines, adjust if any more imports are ever added!
+
+public readonly record struct Cmd<A, B, C, D>(Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, IEnumerable<Command> SubCommands)
+{
+    public Cmd<A, B, C, D, Next> AddOption<Next>(Option<Next> next) => 
+        new(input0, input1, input2, input3, new Opt<Next>(next), SubCommands);
+    
+    public Cmd<A, B, C, D, Next> AddArgument<Next>(Argument<Next> next) => 
+        new(input0, input1, input2, input3, new Arg<Next>(next), SubCommands);
+
+    public Command SetAction(string name, string description, Func<A, B, C, D, int> action)
+        => SetAction(name, description, (a, b, c, d, _) => Task.FromResult(action(a, b, c, d)));
     
     public Command SetAction(string name, string description, Func<A, B, C, D, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option1, option2};
-        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
-            parseResult.GetRequiredValue(option2),
-            parseResult.GetRequiredValue(option3),
-            parseResult.GetRequiredValue(option4),
-            ct));
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
-        return result;
-    }
-    internal IEnumerable<Command> SubCommands { get; init; } = [];
-
-    public Cmd<A, B, C, D> AddSub(Command cmd) => new(option1, option2, option3, option4, SubCommands.Append(cmd));
-
-};
-
-public record Cmd<A, B, C, D, E>(Option<A> option1, Option<B> option2, 
-    Option<C> option3, Option<D> option4, 
-    Option<E> option5, IEnumerable<Command> SubCommands)
-{
-    public Cmd<A, B, C, D, E, F> AddOption<F>(Option<F> option6) =>
-        new(option1, option2, option3, option4, option5, option6, SubCommands);
-
-    public Command SetAction(string name, string description, Func<A, B, C, D, E, int> action) =>
-        SetAction(name, description, (a, b, c, d, e) => Task.FromResult(action(a, b, c, d, e)));
-    
-    public Command SetAction(string name, string description, Func<A, B, C, D, E, Task<int>> action)
-    {
-        var result =  new Command(name, description) {option1, option2};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option1),
-            parseResult.GetRequiredValue(option2),
-            parseResult.GetRequiredValue(option3),
-            parseResult.GetRequiredValue(option4),
-            parseResult.GetRequiredValue(option5)));
+        var result = new Command(name, description);
+        		input0.AddTo(result);
+		input1.AddTo(result);
+		input2.AddTo(result);
+		input3.AddTo(result);
+        var self = this;
+        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
+			self.input1.GetValue(parseResult),
+			self.input2.GetValue(parseResult),
+			self.input3.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
     
-    public Cmd<A, B, C, D, E> AddSub(Command cmd) =>
-        this with { SubCommands = SubCommands.Append(cmd) };
-
+    public Cmd<A, B, C, D> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
+// Script drops first three lines, adjust if any more imports are ever added!
 
-public record Cmd<A, B, C, D, E, F>(Option<A> option1, Option<B> option2,
-    Option<C> option3, Option<D> option4, Option<E> option5,
-    Option<F> option6, IEnumerable<Command> SubCommands)
+public readonly record struct Cmd<A, B, C, D, E>(Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, IEnumerable<Command> SubCommands)
 {
-   // public Cmd<A, B, C, D, E, F> AddOption<F>(Option<F> option6) => new (option1, option2, option3, option4, option5,  option6)
-   //{ SubCommands = SubCommands };
-   
-   public Command SetAction(string name, string description, Func<A, B, C, D, E, F, int> action) =>
-       SetAction(name, description, (a, b, c, d, e, f) => Task.FromResult(action(a, b, c, d, e, f)));
-   
-    public Command SetAction(string name, string description, Func<A, B, C, D, E, F, Task<int>> action)
+    // public Cmd<A, B, C, D, E, Next> AddOption<Next>(Option<Next> next) => 
+    //     new(input0, input1, input2, input3, input4, new Opt<Next>(next), SubCommands);
+    //
+    // public Cmd<A, B, C, D, E, Next> AddArgument<Next>(Argument<Next> next) => 
+    //     new(input0, input1, input2, input3, input4, new Arg<Next>(next), SubCommands);
+
+    public Command SetAction(string name, string description, Func<A, B, C, D, E, int> action)
+        => SetAction(name, description, (a, b, c, d, e, _) => Task.FromResult(action(a, b, c, d, e)));
+    
+    public Command SetAction(string name, string description, Func<A, B, C, D, E, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option1, option2};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option1),
-            parseResult.GetRequiredValue(option2),
-            parseResult.GetRequiredValue(option3),
-            parseResult.GetRequiredValue(option4),
-            parseResult.GetRequiredValue(option5),
-            parseResult.GetRequiredValue(option6)));
+        var result = new Command(name, description);
+        		input0.AddTo(result);
+		input1.AddTo(result);
+		input2.AddTo(result);
+		input3.AddTo(result);
+		input4.AddTo(result);
+        var self = this;
+        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
+			self.input1.GetValue(parseResult),
+			self.input2.GetValue(parseResult),
+			self.input3.GetValue(parseResult),
+			self.input4.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
-
-    public Cmd<A, B, C, D, E, F> AddSub(Command cmd) => this with { SubCommands = SubCommands.Append(cmd) };
-
+    
+    public Cmd<A, B, C, D, E> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };

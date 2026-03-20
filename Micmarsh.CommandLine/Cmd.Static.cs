@@ -1,11 +1,13 @@
 using System.CommandLine;
+using Micmarsh.CommandLine.Generator;
 
 namespace Micmarsh.CommandLine;
 
 
 public static class Cmd
 {
-    public static Cmd<A> AddOption<A>(Option<A> option) => new (option, []);
+    public static Cmd<A> AddOption<A>(Option<A> option) => new (new Opt<A>(option), []);
+    public static Cmd<A> AddArgument<A>(Argument<A> option) => new (new Arg<A>(option), []);
     
     public static RootCmd AddSub(Command cmd) => new ([cmd]);
 
