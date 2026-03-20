@@ -33,7 +33,7 @@ var program = Cmd
         {
             var count = Math.Min((int)countInput, letters.Length);
             var fullInputFile = File.ReadAllLines(input.FullName);
-            var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(3));
+            var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
             var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
             File.WriteAllText(output.FullName, string.Join(Environment.NewLine, 
                 generatedTypes.Prepend(Environment.NewLine)
