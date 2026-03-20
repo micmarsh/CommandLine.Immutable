@@ -7,7 +7,6 @@ public readonly record struct CmdTemplate<PLACEHOLDER>(Input<PLACEHOLDER> placeh
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
         new(placeholderFields, new Opt<Next>(next), SubCommands);
-    
     public CmdTemplate<PLACEHOLDER, Next> AddArgument<Next>(Argument<Next> next) => 
         new(placeholderFields, new Arg<Next>(next), SubCommands);
 

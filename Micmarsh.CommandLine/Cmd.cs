@@ -9,7 +9,6 @@ public readonly record struct Cmd<A>(Input<A> input0, IEnumerable<Command> SubCo
 {
     public Cmd<A, Next> AddOption<Next>(Option<Next> next) => 
         new(input0, new Opt<Next>(next), SubCommands);
-    
     public Cmd<A, Next> AddArgument<Next>(Argument<Next> next) => 
         new(input0, new Arg<Next>(next), SubCommands);
 
@@ -19,9 +18,9 @@ public readonly record struct Cmd<A>(Input<A> input0, IEnumerable<Command> SubCo
     public Command SetAction(string name, string description, Func<A, CancellationToken, Task<int>> action)
     {
         var result = new Command(name, description);
-        		input0.AddTo(result);
+        input0.AddTo(result);
         var self = this;
-        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult), ct));
+        result.SetAction((parseResult, ct) => action(self.input0.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -34,7 +33,6 @@ public readonly record struct Cmd<A, B>(Input<A> input0, Input<B> input1, IEnume
 {
     public Cmd<A, B, Next> AddOption<Next>(Option<Next> next) => 
         new(input0, input1, new Opt<Next>(next), SubCommands);
-    
     public Cmd<A, B, Next> AddArgument<Next>(Argument<Next> next) => 
         new(input0, input1, new Arg<Next>(next), SubCommands);
 
@@ -44,11 +42,11 @@ public readonly record struct Cmd<A, B>(Input<A> input0, Input<B> input1, IEnume
     public Command SetAction(string name, string description, Func<A, B, CancellationToken, Task<int>> action)
     {
         var result = new Command(name, description);
-        		input0.AddTo(result);
+        input0.AddTo(result);
 		input1.AddTo(result);
         var self = this;
-        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
-			self.input1.GetValue(parseResult), ct));
+        result.SetAction((parseResult, ct) => action(self.input0.GetValue(parseResult),
+					self.input1.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -61,7 +59,6 @@ public readonly record struct Cmd<A, B, C>(Input<A> input0, Input<B> input1, Inp
 {
     public Cmd<A, B, C, Next> AddOption<Next>(Option<Next> next) => 
         new(input0, input1, input2, new Opt<Next>(next), SubCommands);
-    
     public Cmd<A, B, C, Next> AddArgument<Next>(Argument<Next> next) => 
         new(input0, input1, input2, new Arg<Next>(next), SubCommands);
 
@@ -71,13 +68,13 @@ public readonly record struct Cmd<A, B, C>(Input<A> input0, Input<B> input1, Inp
     public Command SetAction(string name, string description, Func<A, B, C, CancellationToken, Task<int>> action)
     {
         var result = new Command(name, description);
-        		input0.AddTo(result);
+        input0.AddTo(result);
 		input1.AddTo(result);
 		input2.AddTo(result);
         var self = this;
-        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
-			self.input1.GetValue(parseResult),
-			self.input2.GetValue(parseResult), ct));
+        result.SetAction((parseResult, ct) => action(self.input0.GetValue(parseResult),
+					self.input1.GetValue(parseResult),
+					self.input2.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -90,7 +87,6 @@ public readonly record struct Cmd<A, B, C, D>(Input<A> input0, Input<B> input1, 
 {
     public Cmd<A, B, C, D, Next> AddOption<Next>(Option<Next> next) => 
         new(input0, input1, input2, input3, new Opt<Next>(next), SubCommands);
-    
     public Cmd<A, B, C, D, Next> AddArgument<Next>(Argument<Next> next) => 
         new(input0, input1, input2, input3, new Arg<Next>(next), SubCommands);
 
@@ -100,15 +96,15 @@ public readonly record struct Cmd<A, B, C, D>(Input<A> input0, Input<B> input1, 
     public Command SetAction(string name, string description, Func<A, B, C, D, CancellationToken, Task<int>> action)
     {
         var result = new Command(name, description);
-        		input0.AddTo(result);
+        input0.AddTo(result);
 		input1.AddTo(result);
 		input2.AddTo(result);
 		input3.AddTo(result);
         var self = this;
-        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
-			self.input1.GetValue(parseResult),
-			self.input2.GetValue(parseResult),
-			self.input3.GetValue(parseResult), ct));
+        result.SetAction((parseResult, ct) => action(self.input0.GetValue(parseResult),
+					self.input1.GetValue(parseResult),
+					self.input2.GetValue(parseResult),
+					self.input3.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -121,7 +117,6 @@ public readonly record struct Cmd<A, B, C, D, E>(Input<A> input0, Input<B> input
 {
     // public Cmd<A, B, C, D, E, Next> AddOption<Next>(Option<Next> next) => 
     //     new(input0, input1, input2, input3, input4, new Opt<Next>(next), SubCommands);
-    //
     // public Cmd<A, B, C, D, E, Next> AddArgument<Next>(Argument<Next> next) => 
     //     new(input0, input1, input2, input3, input4, new Arg<Next>(next), SubCommands);
 
@@ -131,17 +126,17 @@ public readonly record struct Cmd<A, B, C, D, E>(Input<A> input0, Input<B> input
     public Command SetAction(string name, string description, Func<A, B, C, D, E, CancellationToken, Task<int>> action)
     {
         var result = new Command(name, description);
-        		input0.AddTo(result);
+        input0.AddTo(result);
 		input1.AddTo(result);
 		input2.AddTo(result);
 		input3.AddTo(result);
 		input4.AddTo(result);
         var self = this;
-        result.SetAction((parseResult, ct) => action(			self.input0.GetValue(parseResult),
-			self.input1.GetValue(parseResult),
-			self.input2.GetValue(parseResult),
-			self.input3.GetValue(parseResult),
-			self.input4.GetValue(parseResult), ct));
+        result.SetAction((parseResult, ct) => action(self.input0.GetValue(parseResult),
+					self.input1.GetValue(parseResult),
+					self.input2.GetValue(parseResult),
+					self.input3.GetValue(parseResult),
+					self.input4.GetValue(parseResult), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }

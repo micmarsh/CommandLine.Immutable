@@ -64,8 +64,8 @@ string GenerateType(string template, int num)
         .Replace("CmdTemplate", "Cmd")
         .Replace("Input<PLACEHOLDER> placeholderFields", string.Join(", ", fieldsInConst))
         .Replace("PLACEHOLDER", string.Join(", ", typeParams))
-        .Replace("self.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}\t\t", valueLookups))
-        .Replace("placeholderFields.AddTo(result);", string.Join($"{Environment.NewLine}\t\t\t", inputAdds))
+        .Replace("self.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}\t\t\t\t\t", valueLookups))
+        .Replace("placeholderFields.AddTo(result);", string.Join($"{Environment.NewLine}\t\t", inputAdds))
         .Replace("placeholderFields", string.Join(", ", fields))
         .Replace("placeHolder", string.Join(", ", parsedVars));
 }
