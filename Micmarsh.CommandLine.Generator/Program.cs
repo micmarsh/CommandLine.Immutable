@@ -22,6 +22,7 @@ Option<uint> typesCount = new("--number", "-n")
 {
     Description = "Max number of of generic types to generate (max 26)",
     DefaultValueFactory = _ => 5,
+    Required = false
 };
 var program = Cmd
     .AddOption(templatePath)
@@ -36,7 +37,8 @@ var program = Cmd
             var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
             File.WriteAllText(output.FullName, string.Join(Environment.NewLine, generatedTypes));
             return 0;
-        });
+        })
+    .AsRoot();
 
 program.Parse(args).Invoke();
 

@@ -2,39 +2,6 @@
 
 using System.CommandLine;
 
-public static class Cmd
-{
-    public static Cmd<A> AddOption<A>(Option<A> option) => new (option, []);
-    
-    public static RootCmd AddSub(Command cmd) => new ([cmd]);
-
-    public static RootCommand AsRoot(this Command command)
-    {
-        var root =  new RootCommand(command.Description ?? string.Empty);
-        foreach (var opt in command.Options) root.Options.Add(opt);
-        foreach (var sub in command.Subcommands) root.Subcommands.Add(sub);
-        //todo arguments and other things?
-        return root;
-    }
-}
-
-public record RootCmd(IEnumerable<Command> SubCommands)
-{
-    /// <summary>
-    /// Remember to call <see cref="Cmd.AsRoot"/> at end of method chain if adding options to RootCmd
-    /// </summary>
-    public static Cmd<A> AddOption<A>(Option<A> option) => new (option, []);
-
-    public RootCommand SetDescription(string description = "")
-    {
-        var result = new RootCommand(description);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
-        return result;
-    }
-    
-    public RootCmd AddSub(Command cmd) => new(SubCommands.Append(cmd));
-}
-
 public record Cmd<A>(Option<A> option, IEnumerable<Command> SubCommands)
 {
     public Cmd<A, B> AddOption<B>(Option<B> option2) => new(option, option2, SubCommands);
