@@ -53,9 +53,9 @@ string GenerateType(string template, int num)
     var typeParams = Enumerable.Range(0, num).Select(i => uppercase[i]);
     
     var valueLookups = Enumerable.Range(0, num)
-        .Select(i => $"\t\t\tself.input{i}.GetValue(parseResult)");
+        .Select(i => $"self.input{i}.GetValue(parseResult)");
     var inputAdds = Enumerable.Range(0, num)
-        .Select(i => $"\t\tinput{i}.AddTo(result);");
+        .Select(i => $"input{i}.AddTo(result);");
     
     var fields = Enumerable.Range(0, num).Select(i => $"input{i}");
     var parsedVars = Enumerable.Range(0, num).Select(i => lowercase[i]);
@@ -64,8 +64,8 @@ string GenerateType(string template, int num)
         .Replace("CmdTemplate", "Cmd")
         .Replace("Input<PLACEHOLDER> placeholderFields", string.Join(", ", fieldsInConst))
         .Replace("PLACEHOLDER", string.Join(", ", typeParams))
-        .Replace("self.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}", valueLookups))
-        .Replace("placeholderFields.AddTo(result);", string.Join($"{Environment.NewLine}", inputAdds))
+        .Replace("self.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}\t\t", valueLookups))
+        .Replace("placeholderFields.AddTo(result);", string.Join($"{Environment.NewLine}\t\t\t", inputAdds))
         .Replace("placeholderFields", string.Join(", ", fields))
         .Replace("placeHolder", string.Join(", ", parsedVars));
 }
