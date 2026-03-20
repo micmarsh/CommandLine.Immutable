@@ -54,7 +54,7 @@ public record Cmd<A, B, C>(Option<A> option1, Option<B> option2, Option<C> optio
     
     public Command SetAction(string name, string description, Func<A, B, C, CancellationToken, Task<int>> action)
     {
-        var result =  new Command(name, description) {option1, option2};
+        var result =  new Command(name, description) {option1, option2, option3};
         result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
             parseResult.GetRequiredValue(option2),
             parseResult.GetRequiredValue(option3),
