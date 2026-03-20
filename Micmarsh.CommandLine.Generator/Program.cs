@@ -38,6 +38,8 @@ var program = Cmd
             return 0;
         });
 
+program.Parse(args).Invoke();
+
 string GenerateType(string template, int num)
 {
     var fieldsInConst = Enumerable.Range(0, num)
