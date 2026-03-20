@@ -40,12 +40,12 @@ public record Cmd<A>(Option<A> option, IEnumerable<Command> SubCommands)
     public Cmd<A, B> AddOption<B>(Option<B> option2) => new(option, option2, SubCommands);
 
     public Command SetAction(string name, string description, Func<A, int> action) =>
-        SetAction(name, description, a => Task.FromResult(action(a)));
+        SetAction(name, description, (a, _) => Task.FromResult(action(a)));
 
-    public Command SetAction(string name, string description, Func<A, Task<int>> action)
+    public Command SetAction(string name, string description, Func<A, CancellationToken, Task<int>> action)
     {
         var result =  new Command(name, description) {option};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option)));
+        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option), ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -59,13 +59,14 @@ public record Cmd<A, B>(Option<A> option1, Option<B> option2, IEnumerable<Comman
         new(option1, option2, option3, SubCommands);
 
     public Command SetAction(string name, string description, Func<A, B, int> action) =>
-        SetAction(name, description, (a, b) => Task.FromResult(action(a, b)));
+        SetAction(name, description, (a, b, _) => Task.FromResult(action(a, b)));
 
-    public Command SetAction(string name, string description, Func<A, B, Task<int>> action)
+    public Command SetAction(string name, string description, Func<A, B, CancellationToken, Task<int>> action)
     {
         var result =  new Command(name, description) {option1, option2};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option1),
-                                                parseResult.GetRequiredValue(option2)));
+        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
+                                                parseResult.GetRequiredValue(option2),
+                                                ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -82,14 +83,15 @@ public record Cmd<A, B, C>(Option<A> option1, Option<B> option2, Option<C> optio
         new(option1, option2, option3, option4, SubCommands);
     
     public Command SetAction(string name, string description, Func<A, B, C, int> action) =>
-        SetAction(name, description, (a, b, c) => Task.FromResult(action(a, b, c)));
+        SetAction(name, description, (a, b, c, _) => Task.FromResult(action(a, b, c)));
     
-    public Command SetAction(string name, string description, Func<A, B, C, Task<int>> action)
+    public Command SetAction(string name, string description, Func<A, B, C, CancellationToken, Task<int>> action)
     {
         var result =  new Command(name, description) {option1, option2};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option1),
+        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
             parseResult.GetRequiredValue(option2),
-            parseResult.GetRequiredValue(option3)));
+            parseResult.GetRequiredValue(option3),
+            ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
@@ -107,15 +109,16 @@ public record Cmd<A, B, C, D>(Option<A> option1, Option<B> option2, Option<C> op
         new(option1, option2, option3, option4, option5, SubCommands);
     
     public Command SetAction(string name, string description, Func<A, B, C, D, int> action) =>
-        SetAction(name, description, (a, b, c, d) => Task.FromResult(action(a, b, c, d)));
+        SetAction(name, description, (a, b, c, d, _) => Task.FromResult(action(a, b, c, d)));
     
-    public Command SetAction(string name, string description, Func<A, B, C, D, Task<int>> action)
+    public Command SetAction(string name, string description, Func<A, B, C, D, CancellationToken, Task<int>> action)
     {
         var result =  new Command(name, description) {option1, option2};
-        result.SetAction(parseResult => action(parseResult.GetRequiredValue(option1),
+        result.SetAction((parseResult, ct) => action(parseResult.GetRequiredValue(option1),
             parseResult.GetRequiredValue(option2),
             parseResult.GetRequiredValue(option3),
-            parseResult.GetRequiredValue(option4)));
+            parseResult.GetRequiredValue(option4),
+            ct));
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
         return result;
     }
