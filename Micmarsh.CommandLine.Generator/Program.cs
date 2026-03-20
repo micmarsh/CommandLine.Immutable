@@ -35,7 +35,11 @@ var program = Cmd
             var fullInputFile = File.ReadAllLines(input.FullName);
             var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(3));
             var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
-            File.WriteAllText(output.FullName, string.Join(Environment.NewLine, generatedTypes));
+            File.WriteAllText(output.FullName, string.Join(Environment.NewLine, 
+                generatedTypes.Prepend(Environment.NewLine)
+                    .Prepend(fullInputFile[2])
+                    .Prepend(fullInputFile[1])
+                    .Prepend(fullInputFile[0])));
             return 0;
         })
     .AsRoot();
