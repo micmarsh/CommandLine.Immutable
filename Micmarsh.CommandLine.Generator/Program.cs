@@ -34,29 +34,31 @@ var program = Cmd.New("app", "Generates a file with Cmd types with up to the spe
     .AddOption(templatePath)
     .AddOption(outputPath)
     .AddOption(typesCount)
-    .SetAction((input, output, countInput) =>
-        {
-            var count = Math.Min((int)countInput, letters.Length);
-            var fullInputFile = File.ReadAllLines(input.FullName);
-            var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
-            var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
-            var fullOutput = string.Join(Environment.NewLine, 
-                generatedTypes.Prepend(fullInputFile[2])
-                    .Prepend(fullInputFile[1])
-                    .Prepend(fullInputFile[0]));
-            if (output.Name ==  stdoutFlag)
-            {
-                Console.WriteLine(fullOutput);
-            }
-            else
-            {
-                File.WriteAllText(output.FullName, fullOutput);
-            }
-            return 0;
-        })
+    .SetAction(RunCmdGenerate)
     .ToRoot();
 
 program.Parse(args).Invoke();
+
+int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
+{
+    var count = Math.Min((int)numTypes, letters.Length);
+    var fullInputFile = File.ReadAllLines(input.FullName);
+    var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
+    var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
+    var fullOutput = string.Join(Environment.NewLine, 
+        generatedTypes.Prepend(fullInputFile[2])
+            .Prepend(fullInputFile[1])
+            .Prepend(fullInputFile[0]));
+    if (output.Name ==  stdoutFlag)
+    {
+        Console.WriteLine(fullOutput);
+    }
+    else
+    {
+        File.WriteAllText(output.FullName, fullOutput);
+    }
+    return 0;
+}
 
 string GenerateType(string template, int num)
 {
