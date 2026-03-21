@@ -30,12 +30,11 @@ Option<uint> typesCount = new("--number", "-n")
     Required = false
 };
 
-var program = Cmd
+var program = Cmd.New("app", "Generates a file with Cmd types with up to the specified number of generic types")
     .AddOption(templatePath)
     .AddOption(outputPath)
     .AddOption(typesCount)
-    .SetAction("app", "Generates a file with Cmd types with up to the specified number of generic types",
-        (input, output, countInput) =>
+    .SetAction((input, output, countInput) =>
         {
             var count = Math.Min((int)countInput, letters.Length);
             var fullInputFile = File.ReadAllLines(input.FullName);
@@ -55,7 +54,7 @@ var program = Cmd
             }
             return 0;
         })
-    .AsRoot();
+    .ToRoot();
 
 program.Parse(args).Invoke();
 
