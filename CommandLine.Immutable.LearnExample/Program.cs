@@ -21,7 +21,7 @@ var addCommand = Cmd.New("add", "Add an entry to the file.")
     .AddArgument(bylineArgument)
     .WithAction(AddToFile)
     .ToCommand();
-
+// Aliases not covered by library!
 addCommand.Aliases.Add("insert");
 
 Cmd.New("root", "Sample app for System.CommandLine")
@@ -29,6 +29,6 @@ Cmd.New("root", "Sample app for System.CommandLine")
     .AddSub(Cmd.New("quotes", "Work with a file that contains quotes.")
         .AddSub(readCmd)
         .AddSub(deleteCmd)
-    )//    .AddSub(addCommand)) // todo need a special impl of ICmd that this can insert!
-        .ToRoot()
-        .Parse(args).Invoke();
+        .AddSub(addCommand))
+    .ToRoot()
+    .Parse(args).Invoke();
