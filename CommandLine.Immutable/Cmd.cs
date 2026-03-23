@@ -1,7 +1,7 @@
 using System.CommandLine;
-using Micmarsh.CommandLine.Generator;
+using CommandLine.Immutable.Generator;
 
-namespace Micmarsh.CommandLine;
+namespace CommandLine.Immutable;
 
 
 public readonly record struct Cmd(string Name, string Description, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction) : ICmd

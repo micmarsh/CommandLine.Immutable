@@ -1,6 +1,6 @@
 using System.CommandLine;
 
-namespace Micmarsh.CommandLine;
+namespace CommandLine.Immutable;
 
 public interface Input<T>
 {

@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Micmarsh.CommandLine\Micmarsh.CommandLine.csproj" />
+      <ProjectReference Include="..\CommandLine.Immutable\CommandLine.Immutable.csproj" />
     </ItemGroup>
 
 </Project>

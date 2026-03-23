@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Micmarsh.CommandLine", "Micmarsh.CommandLine\Micmarsh.CommandLine.csproj", "{6B14CAB3-E7C9-4918-A9E5-F8D78498B2F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Immutable", "CommandLine.Immutable\CommandLine.Immutable.csproj", "{6B14CAB3-E7C9-4918-A9E5-F8D78498B2F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Micmarsh.CommandLine.Generator", "Micmarsh.CommandLine.Generator\Micmarsh.CommandLine.Generator.csproj", "{1555B8CF-598D-4D56-8461-D158ABFEBEC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine.Immutable.Generator", "CommandLine.Immutable.Generator\CommandLine.Immutable.Generator.csproj", "{1555B8CF-598D-4D56-8461-D158ABFEBEC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

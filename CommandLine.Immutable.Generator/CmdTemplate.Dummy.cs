@@ -1,9 +1,9 @@
 using System.CommandLine;
 
-namespace Micmarsh.CommandLine.Generator;
+namespace CommandLine.Immutable.Generator;
 
 /// <summary>
-/// Exists only so <see cref="CmdTemplate{PLACEHOLDER}"/> can compile, and thus remain more useful than a plantext file
+/// Exists only so <see cref="CmdTemplate{PLACEHOLDER}"/> can compile, and thus remain more useful than a plaintext file
 /// </summary>
 public record CmdTemplate<A, B>(
     string name, 

@@ -1,6 +1,6 @@
 ﻿
 using System.CommandLine;
-using Micmarsh.CommandLine;
+using CommandLine.Immutable;
 
 const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
