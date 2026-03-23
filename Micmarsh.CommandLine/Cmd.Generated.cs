@@ -3,6 +3,7 @@ using System.CommandLine;
 namespace Micmarsh.CommandLine.Generator;
 
 public readonly record struct Cmd<A>(string Name, string Description, Input<A> input0, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, new Opt<Next>(next), SubCommands, SetAction);
@@ -35,6 +36,7 @@ public readonly record struct Cmd<A>(string Name, string Description, Input<A> i
 };
 
 public readonly record struct Cmd<A, B>(string Name, string Description, Input<A> input0, Input<B> input1, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, new Opt<Next>(next), SubCommands, SetAction);
@@ -69,6 +71,7 @@ public readonly record struct Cmd<A, B>(string Name, string Description, Input<A
 };
 
 public readonly record struct Cmd<A, B, C>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, new Opt<Next>(next), SubCommands, SetAction);
@@ -105,6 +108,7 @@ public readonly record struct Cmd<A, B, C>(string Name, string Description, Inpu
 };
 
 public readonly record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, new Opt<Next>(next), SubCommands, SetAction);
@@ -143,6 +147,7 @@ public readonly record struct Cmd<A, B, C, D>(string Name, string Description, I
 };
 
 public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, new Opt<Next>(next), SubCommands, SetAction);
@@ -183,6 +188,7 @@ public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, new Opt<Next>(next), SubCommands, SetAction);
@@ -225,6 +231,7 @@ public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Descript
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, input6, new Opt<Next>(next), SubCommands, SetAction);
@@ -269,6 +276,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Descr
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, input6, input7, new Opt<Next>(next), SubCommands, SetAction);
@@ -315,6 +323,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string De
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, input6, input7, input8, new Opt<Next>(next), SubCommands, SetAction);
@@ -363,6 +372,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, input6, input7, input8, input9, new Opt<Next>(next), SubCommands, SetAction);
@@ -413,6 +423,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, str
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, K, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, input0, input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, new Opt<Next>(next), SubCommands, SetAction);
@@ -465,6 +476,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, 
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, Input<L> input11, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     // public Cmd<A, B, C, D, E, F, G, H, I, J, K, L, Next> AddOption<Next>(Option<Next> next) => 
     //     new(Name, Description, input0, input1, input2, input3, input4, input5, input6, input7, input8, input9, input10, input11, new Opt<Next>(next), SubCommands, SetAction);

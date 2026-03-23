@@ -4,7 +4,7 @@ using Micmarsh.CommandLine.Generator;
 namespace Micmarsh.CommandLine;
 
 
-public class Cmd(string Name, string Description, IEnumerable<Command> SubCommands)
+public class Cmd(string Name, string Description, IEnumerable<Command> SubCommands) : ICmd
 {
     public static Cmd New(string name, string desc) => new Cmd(name, desc,[]);
     
@@ -28,6 +28,11 @@ public class Cmd(string Name, string Description, IEnumerable<Command> SubComman
         return result;
     }
 
+}
+
+public interface ICmd
+{
+    Command ToCommand();
 }
 
 public static class CommandExt

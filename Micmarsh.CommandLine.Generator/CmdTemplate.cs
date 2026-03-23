@@ -4,6 +4,7 @@ namespace Micmarsh.CommandLine.Generator;
 // Script drops first three lines, adjust if any more imports are ever added!
 
 public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+    : ICmd
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, placeholderFields, new Opt<Next>(next), SubCommands, SetAction);
