@@ -4,27 +4,26 @@ using Micmarsh.CommandLine.Generator;
 namespace Micmarsh.CommandLine;
 
 
-public class Cmd(string Name, string Description, IEnumerable<ICmd> SubCommands) : ICmd
+public readonly record struct Cmd(string Name, string Description, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction) : ICmd
 {
-    public static Cmd New(string name, string desc) => new Cmd(name, desc,[]);
+    public static Cmd New(string name, string desc) => new Cmd(name, desc,[], null);
     
-    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), SubCommands, null);
-    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), SubCommands, null);
+    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), SubCommands, SetAction);
+    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), SubCommands, SetAction);
     
-    public Command SetAction(Func<int> action)
-        => SetAction(_ => Task.FromResult(action()));
+    public Cmd WithAction(Func<int> action) => WithAction(_ => Task.FromResult(action()));
     
-    public Command SetAction(Func<CancellationToken, Task<int>> action)
-    {
-        var result = ToCommand();
-        result.SetAction((_, ct) => action(ct));
-        return result;
-    }
+    public Cmd WithAction(Func<CancellationToken, Task<int>> action) =>
+        this with
+        {
+            SetAction = command => command.SetAction((_, ct) => action(ct))
+        };
 
     public Command ToCommand()
     {
         var result = new Command(Name, Description);
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
+        SetAction?.Invoke(result);
         return result;
     }
 }
