@@ -28,6 +28,9 @@ public readonly record struct Cmd(string Name, string Description, IEnumerable<I
     }
 
     public Cmd AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 }
 
 public interface ICmd
