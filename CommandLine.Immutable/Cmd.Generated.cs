@@ -33,6 +33,9 @@ public readonly record struct Cmd<A>(string Name, string Description, Input<A> i
     }
 
     public Cmd<A> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B>(string Name, string Description, Input<A> input0, Input<B> input1, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -68,6 +71,9 @@ public readonly record struct Cmd<A, B>(string Name, string Description, Input<A
     }
 
     public Cmd<A, B> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -105,6 +111,9 @@ public readonly record struct Cmd<A, B, C>(string Name, string Description, Inpu
     }
 
     public Cmd<A, B, C> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -144,6 +153,9 @@ public readonly record struct Cmd<A, B, C, D>(string Name, string Description, I
     }
 
     public Cmd<A, B, C, D> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -185,6 +197,9 @@ public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description
     }
 
     public Cmd<A, B, C, D, E> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -228,6 +243,9 @@ public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Descript
     }
 
     public Cmd<A, B, C, D, E, F> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -273,6 +291,9 @@ public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Descr
     }
 
     public Cmd<A, B, C, D, E, F, G> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -320,6 +341,9 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string De
     }
 
     public Cmd<A, B, C, D, E, F, G, H> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G, H> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -369,6 +393,9 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string
     }
 
     public Cmd<A, B, C, D, E, F, G, H, I> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G, H, I> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -420,6 +447,9 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, str
     }
 
     public Cmd<A, B, C, D, E, F, G, H, I, J> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G, H, I, J> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -473,6 +503,9 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, 
     }
 
     public Cmd<A, B, C, D, E, F, G, H, I, J, K> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G, H, I, J, K> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };
 
 public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, Input<L> input11, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
@@ -528,4 +561,7 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Nam
     }
 
     public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };

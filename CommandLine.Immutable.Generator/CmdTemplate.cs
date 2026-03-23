@@ -34,4 +34,7 @@ public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Descr
     }
 
     public CmdTemplate<PLACEHOLDER> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    
+    public CmdTemplate<PLACEHOLDER> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(new PureWrapper(cmd))};
+
 };

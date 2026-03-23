@@ -26,11 +26,18 @@ public readonly record struct Cmd(string Name, string Description, IEnumerable<I
         SetAction?.Invoke(result);
         return result;
     }
+
+    public Cmd AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 }
 
 public interface ICmd
 {
     Command ToCommand();
+}
+
+public record PureWrapper(Command command) : ICmd
+{
+    public Command ToCommand() => command;
 }
 
 public static class CommandExt
