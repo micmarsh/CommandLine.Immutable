@@ -8,8 +8,8 @@ public class Cmd(string Name, string Description, IEnumerable<Command> SubComman
 {
     public static Cmd New(string name, string desc) => new Cmd(name, desc,[]);
     
-    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), []);
-    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), []);
+    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), [], null);
+    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), [], null);
     
     public Command SetAction(Func<int> action)
         => SetAction(_ => Task.FromResult(action()));
