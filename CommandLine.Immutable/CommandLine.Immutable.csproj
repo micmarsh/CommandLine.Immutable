@@ -4,6 +4,10 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageVersion>0.1.0</PackageVersion>
+        <PackageReadmeFile>../README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RootNamespace>CommandLine.Immutable</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

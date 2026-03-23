@@ -4,9 +4,10 @@ A set of utilities for working with the already very-good `System.CommandLine`: 
 take a more OO approach using attributes on class properties, this library constructs a program using 
 immutable data structures.
 
-In leiu of real documentation, see [the code-generation project]() that this project uses
+In leiu of real documentation, see [the code-generation project](https://github.com/micmarsh/CommandLine.Immutable/blob/master/CommandLine.Immutable.Generator/Program.cs) that this project uses
 to generate the type-safe wrapper objects that are the backbone of this library.
 
+`dotnet add package CommandLine.Immutable` or `CommandLine.Immutable` on nuget
 
 ## TODO
 * Real documentation/examples
