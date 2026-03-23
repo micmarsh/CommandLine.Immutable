@@ -1,0 +1,1 @@
+A re-implementation of the final version of https://learn.microsoft.com/en-us/dotnet/standard/commandline/get-started-tutorial, to serve as an example of this library's usage
