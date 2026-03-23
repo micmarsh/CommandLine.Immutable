@@ -3,22 +3,24 @@ using System.CommandLine;
 namespace Micmarsh.CommandLine.Generator;
 // Script drops first three lines, adjust if any more imports are ever added!
 
-public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands)
+public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
-        new(Name, Description, placeholderFields, new Opt<Next>(next), SubCommands);
+        new(Name, Description, placeholderFields, new Opt<Next>(next), SubCommands, SetAction);
     public CmdTemplate<PLACEHOLDER, Next> AddArgument<Next>(Argument<Next> next) => 
-        new(Name, Description, placeholderFields, new Arg<Next>(next), SubCommands);
+        new(Name, Description, placeholderFields, new Arg<Next>(next), SubCommands, SetAction);
 
-    public Command SetAction(Func<PLACEHOLDER, int> action)
-        => SetAction((placeHolder, _) => Task.FromResult(action(placeHolder)));
-    
-    public Command SetAction(Func<PLACEHOLDER, CancellationToken, Task<int>> action)
+    public CmdTemplate<PLACEHOLDER> WithAction(Func<PLACEHOLDER, int> action)
+        => WithAction((placeHolder, _) => Task.FromResult(action(placeHolder)));
+
+    public CmdTemplate<PLACEHOLDER> WithAction(Func<PLACEHOLDER, CancellationToken, Task<int>> action)
     {
-        var result = ToCommand();
         var self = this;
-        result.SetAction((parseResult, ct) => action(self.placeholderFields.GetValue(parseResult), ct));
-        return result;
+        return self with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(self.placeholderFields.GetValue(parseResult), ct))
+        };
     }
 
     public Command ToCommand()
@@ -26,6 +28,7 @@ public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Descr
         var result = new Command(Name, Description);
         placeholderFields.AddTo(result);
         foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        SetAction?.Invoke(result);
         return result;
     }
 
