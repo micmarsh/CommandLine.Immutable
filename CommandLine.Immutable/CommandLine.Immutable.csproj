@@ -5,13 +5,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageVersion>0.1.0</PackageVersion>
-        <PackageReadmeFile>../README.md</PackageReadmeFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RootNamespace>CommandLine.Immutable</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="System.CommandLine" Version="2.0.5" />
+      <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
