@@ -4,12 +4,12 @@ using Micmarsh.CommandLine.Generator;
 namespace Micmarsh.CommandLine;
 
 
-public class Cmd(string Name, string Description, IEnumerable<Command> SubCommands) : ICmd
+public class Cmd(string Name, string Description, IEnumerable<ICmd> SubCommands) : ICmd
 {
     public static Cmd New(string name, string desc) => new Cmd(name, desc,[]);
     
-    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), [], null);
-    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), [], null);
+    public Cmd<A> AddOption<A>(Option<A> option) => new (Name, Description, new Opt<A>(option), SubCommands, null);
+    public Cmd<A> AddArgument<A>(Argument<A> option) => new (Name, Description, new Arg<A>(option), SubCommands, null);
     
     public Command SetAction(Func<int> action)
         => SetAction(_ => Task.FromResult(action()));
@@ -24,10 +24,9 @@ public class Cmd(string Name, string Description, IEnumerable<Command> SubComman
     public Command ToCommand()
     {
         var result = new Command(Name, Description);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         return result;
     }
-
 }
 
 public interface ICmd
@@ -37,6 +36,8 @@ public interface ICmd
 
 public static class CommandExt
 {
+    public static RootCommand ToRoot(this ICmd command) => command.ToCommand().ToRoot();
+
     public static RootCommand ToRoot(this Command command)
     {
         var root =  new RootCommand(command.Description ?? string.Empty);

@@ -2,7 +2,7 @@ using System.CommandLine;
 
 namespace Micmarsh.CommandLine.Generator;
 
-public readonly record struct Cmd<A>(string Name, string Description, Input<A> input0, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A>(string Name, string Description, Input<A> input0, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, Next> AddOption<Next>(Option<Next> next) => 
@@ -27,15 +27,15 @@ public readonly record struct Cmd<A>(string Name, string Description, Input<A> i
     {
         var result = new Command(Name, Description);
         input0.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B>(string Name, string Description, Input<A> input0, Input<B> input1, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B>(string Name, string Description, Input<A> input0, Input<B> input1, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, Next> AddOption<Next>(Option<Next> next) => 
@@ -62,15 +62,15 @@ public readonly record struct Cmd<A, B>(string Name, string Description, Input<A
         var result = new Command(Name, Description);
         input0.AddTo(result);
 		input1.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, Next> AddOption<Next>(Option<Next> next) => 
@@ -99,15 +99,15 @@ public readonly record struct Cmd<A, B, C>(string Name, string Description, Inpu
         input0.AddTo(result);
 		input1.AddTo(result);
 		input2.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, Next> AddOption<Next>(Option<Next> next) => 
@@ -138,15 +138,15 @@ public readonly record struct Cmd<A, B, C, D>(string Name, string Description, I
 		input1.AddTo(result);
 		input2.AddTo(result);
 		input3.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, Next> AddOption<Next>(Option<Next> next) => 
@@ -179,15 +179,15 @@ public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description
 		input2.AddTo(result);
 		input3.AddTo(result);
 		input4.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, Next> AddOption<Next>(Option<Next> next) => 
@@ -222,15 +222,15 @@ public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Descript
 		input3.AddTo(result);
 		input4.AddTo(result);
 		input5.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, Next> AddOption<Next>(Option<Next> next) => 
@@ -267,15 +267,15 @@ public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Descr
 		input4.AddTo(result);
 		input5.AddTo(result);
 		input6.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, Next> AddOption<Next>(Option<Next> next) => 
@@ -314,15 +314,15 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string De
 		input5.AddTo(result);
 		input6.AddTo(result);
 		input7.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G, H> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G, H> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, Next> AddOption<Next>(Option<Next> next) => 
@@ -363,15 +363,15 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string
 		input6.AddTo(result);
 		input7.AddTo(result);
 		input8.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G, H, I> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G, H, I> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, Next> AddOption<Next>(Option<Next> next) => 
@@ -414,15 +414,15 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, str
 		input7.AddTo(result);
 		input8.AddTo(result);
 		input9.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G, H, I, J> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G, H, I, J> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, K, Next> AddOption<Next>(Option<Next> next) => 
@@ -467,15 +467,15 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, 
 		input8.AddTo(result);
 		input9.AddTo(result);
 		input10.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G, H, I, J, K> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G, H, I, J, K> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
 
-public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, Input<L> input11, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> input0, Input<B> input1, Input<C> input2, Input<D> input3, Input<E> input4, Input<F> input5, Input<G> input6, Input<H> input7, Input<I> input8, Input<J> input9, Input<K> input10, Input<L> input11, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     // public Cmd<A, B, C, D, E, F, G, H, I, J, K, L, Next> AddOption<Next>(Option<Next> next) => 
@@ -522,10 +522,10 @@ public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Nam
 		input9.AddTo(result);
 		input10.AddTo(result);
 		input11.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };

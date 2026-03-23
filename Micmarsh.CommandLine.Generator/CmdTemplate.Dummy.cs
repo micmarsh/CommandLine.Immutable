@@ -7,5 +7,5 @@ public record CmdTemplate<A, B>(
     string desc,
     Input<A> a,
     Input<B> b,
-    IEnumerable<Command> SubCommands,
+    IEnumerable<ICmd> SubCommands,
     Action<Command>? SetAction);

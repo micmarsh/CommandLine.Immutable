@@ -3,7 +3,7 @@ using System.CommandLine;
 namespace Micmarsh.CommandLine.Generator;
 // Script drops first three lines, adjust if any more imports are ever added!
 
-public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
@@ -28,10 +28,10 @@ public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Descr
     {
         var result = new Command(Name, Description);
         placeholderFields.AddTo(result);
-        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd);
+        foreach (var cmd in SubCommands) result.Subcommands.Add(cmd.ToCommand());
         SetAction?.Invoke(result);
         return result;
     }
 
-    public CmdTemplate<PLACEHOLDER> AddSub(Command cmd) => this with {SubCommands = SubCommands.Append(cmd)};
+    public CmdTemplate<PLACEHOLDER> AddSub(ICmd cmd) => this with {SubCommands = SubCommands.Append(cmd)};
 };
