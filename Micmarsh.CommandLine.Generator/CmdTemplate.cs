@@ -3,7 +3,7 @@ using System.CommandLine;
 namespace Micmarsh.CommandLine.Generator;
 // Script drops first three lines, adjust if any more imports are ever added!
 
-public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands, Action<Command>? SetAction)
+public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<Command> SubCommands, Action<Command>? SetAction = null)
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
         new(Name, Description, placeholderFields, new Opt<Next>(next), SubCommands, SetAction);

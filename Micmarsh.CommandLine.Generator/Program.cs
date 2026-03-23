@@ -34,7 +34,8 @@ var program = Cmd.New("app", "Generates a file with Cmd types with up to the spe
     .AddOption(templatePath)
     .AddOption(outputPath)
     .AddOption(typesCount)
-    .SetAction(RunCmdGenerate)
+    .WithAction(RunCmdGenerate)
+    .ToCommand()
     .ToRoot();
 
 program.Parse(args).Invoke();
