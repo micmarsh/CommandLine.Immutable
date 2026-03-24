@@ -1,10 +1,9 @@
-﻿using System.CommandLine;
-using CommandLine.Immutable;
+﻿using CommandLine.Immutable;
 using static CommandLine.Immutable.LearnExample.Inputs;
 using static CommandLine.Immutable.LearnExample.BusinessLogic;
 
 var readCmd = Cmd.New("read", "Read and display the file.")
-    .AddOption(fileOption)//todo look into this! Subcommands have access to parent args! This can handle just fine?
+    .AddOption(fileOption)
     .AddOption(delayOption)
     .AddOption(fgcolorOption)
     .AddOption(lightModeOption)
