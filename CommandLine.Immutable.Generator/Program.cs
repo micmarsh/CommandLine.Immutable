@@ -2,10 +2,8 @@
 using System.CommandLine;
 using CommandLine.Immutable;
 
-const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-var uppercase = letters.ToUpper().ToArray();
-var lowercase = letters.ToLower().ToArray();
+const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var lowercase = uppercase.ToLower();
 
 
 Option<FileInfo> templatePath = new("--template", "-t")
@@ -14,7 +12,7 @@ Option<FileInfo> templatePath = new("--template", "-t")
 };
 
 //todo use LangExt Options (Optional system saved in gist?) instead of this hack
-var stdoutFlag = $"TO-STDOUT-{new Random().GetString(letters, 10)}";
+var stdoutFlag = $"TO-STDOUT-{new Random().GetString(uppercase, 10)}";
 
 Option<FileInfo> outputPath = new("--output", "-o")
 {
@@ -41,7 +39,7 @@ program.Parse(args).Invoke();
 
 int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
 {
-    var count = Math.Min((int)numTypes, letters.Length);
+    var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
     var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
     var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
@@ -62,22 +60,19 @@ int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
 
 string GenerateType(string template, int num)
 {
-    // todo one of these can re-use the other instead of using Range (make typeParams the foundation)
-    var typeParams = Enumerable.Range(0, num).Select(i => uppercase[i]);
-    var fields = Enumerable.Range(0, num).Select(i => $"input{i}");
+    var typeParams = uppercase.Take(num);
+    //todo Seq to avoid multiple enumeration (maybe can use LangExt Range above)
+    var fields = typeParams.Select(type => $"input{type}");
 
-    // todo this could reuse/zip typeparams and fields
-    var fieldsInConst = Enumerable.Range(0, num)
-        .Select(i => $"Input<{uppercase[i]}> input{i}");
+    var fieldsInConst = typeParams.Zip(fields)
+        .Select(pair => $"Input<{pair.First}> {pair.Second}");
 
-    // todo these could reuse fields
-    var valueLookups = Enumerable.Range(0, num)
-        .Select(i => $"self.input{i}.GetValue(parseResult)");
-    var inputAdds = Enumerable.Range(0, num)
-        .Select(i => $"input{i}.AddTo(result);");
+    var valueLookups = fields
+        .Select(field => $"self.{field}.GetValue(parseResult)");
+    var inputAdds = fields
+        .Select(field => $"{field}.AddTo(result);");
 
-    // todo this can reuse typeParams instead of counting
-    var parsedVars = Enumerable.Range(0, num).Select(i => lowercase[i]);
+    var parsedVars = lowercase.Take(fields.Count());
 
     return template
         .Replace("CmdTemplate", "Cmd")
