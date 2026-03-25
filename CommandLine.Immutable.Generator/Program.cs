@@ -62,16 +62,21 @@ int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
 
 string GenerateType(string template, int num)
 {
+    // todo one of these can re-use the other instead of using Range (make typeParams the foundation)
+    var typeParams = Enumerable.Range(0, num).Select(i => uppercase[i]);
+    var fields = Enumerable.Range(0, num).Select(i => $"input{i}");
+
+    // todo this could reuse/zip typeparams and fields
     var fieldsInConst = Enumerable.Range(0, num)
         .Select(i => $"Input<{uppercase[i]}> input{i}");
-    var typeParams = Enumerable.Range(0, num).Select(i => uppercase[i]);
-    
+
+    // todo these could reuse fields
     var valueLookups = Enumerable.Range(0, num)
         .Select(i => $"self.input{i}.GetValue(parseResult)");
     var inputAdds = Enumerable.Range(0, num)
         .Select(i => $"input{i}.AddTo(result);");
-    
-    var fields = Enumerable.Range(0, num).Select(i => $"input{i}");
+
+    // todo this can reuse typeParams instead of counting
     var parsedVars = Enumerable.Range(0, num).Select(i => lowercase[i]);
 
     return template
