@@ -3,7 +3,7 @@ using System.CommandLine;
 namespace CommandLine.Immutable.Generator;
 // Script drops first three lines, adjust if any more imports are ever added!
 
-public readonly partial record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct CmdTemplate<PLACEHOLDER>(string Name, string Description, Input<PLACEHOLDER> placeholderFields, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public CmdTemplate<PLACEHOLDER, Next> AddOption<Next>(Option<Next> next) => 
