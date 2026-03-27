@@ -49,6 +49,7 @@ var langExtLibCmd = Cmd.New("lang-ext", "Generates a file with extension methods
 
 var program = Cmd.New("app", "Helpers for generating the types this library uses")
     .AddSub(mainLibCmd)
+    .AddSub(langExtLibCmd)
     .ToRoot();
 
 program.Parse(args).Invoke();
