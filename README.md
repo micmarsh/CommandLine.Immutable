@@ -11,9 +11,11 @@ There's also a project re-implementing the example from [Microsoft's own tutoria
 
 `dotnet add package CommandLine.Immutable` or `CommandLine.Immutable` on nuget
 
+For the "full experience"
+`dotnet add package CommandLine.Immutable.LangExt` or `CommandLine.Immutable.LangExt` on nuget
+
 ## TODO
-* Create a [LanguageExt](https://github.com/louthy/language-ext)-enhanced version the library (the real inspiration for this in the first place) 
-* Integrate Microsoft Dependeny Injection if there's any interest
+* Integrate Microsoft Dependency Injection if there's any interest
 
 Copyright 2026 Michael Marsh
 

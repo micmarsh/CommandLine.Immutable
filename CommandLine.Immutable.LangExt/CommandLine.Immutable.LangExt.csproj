@@ -4,10 +4,14 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageVersion>0.1.0</PackageVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="LanguageExt.Core" Version="5.0.0-beta-77" />
       <ProjectReference Include="..\CommandLine.Immutable\CommandLine.Immutable.csproj" />
+      <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>
