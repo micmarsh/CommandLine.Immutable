@@ -1,333 +1,255 @@
-// using System.CommandLine;
-// using LanguageExt;
-// namespace CommandLine.Immutable;
-//
-// public readonly partial record struct Cmd<A>
-// {
-//     public Cmd<A> WithAction(Func<A, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A> WithAction(Func<A, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a) => action(a).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B>
-// {
-//     public Cmd<A, B> WithAction(Func<A, B, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B> WithAction(Func<A, B, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b) => action(a, b).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C>
-// {
-//     public Cmd<A, B, C> WithAction(Func<A, B, C, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C> WithAction(Func<A, B, C, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c) => action(a, b, c).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D>
-// {
-//     public Cmd<A, B, C, D> WithAction(Func<A, B, C, D, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D> WithAction(Func<A, B, C, D, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d) => action(a, b, c, d).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E>
-// {
-//     public Cmd<A, B, C, D, E> WithAction(Func<A, B, C, D, E, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E> WithAction(Func<A, B, C, D, E, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e) => action(a, b, c, d, e).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F>
-// {
-//     public Cmd<A, B, C, D, E, F> WithAction(Func<A, B, C, D, E, F, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F> WithAction(Func<A, B, C, D, E, F, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f) => action(a, b, c, d, e, f).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G>
-// {
-//     public Cmd<A, B, C, D, E, F, G> WithAction(Func<A, B, C, D, E, F, G, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G> WithAction(Func<A, B, C, D, E, F, G, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g) => action(a, b, c, d, e, f, g).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G, H>
-// {
-//     public Cmd<A, B, C, D, E, F, G, H> WithAction(Func<A, B, C, D, E, F, G, H, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult),
-// 					self.inputH.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G, H> WithAction(Func<A, B, C, D, E, F, G, H, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g, h) => action(a, b, c, d, e, f, g, h).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I>
-// {
-//     public Cmd<A, B, C, D, E, F, G, H, I> WithAction(Func<A, B, C, D, E, F, G, H, I, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult),
-// 					self.inputH.GetValue(parseResult),
-// 					self.inputI.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G, H, I> WithAction(Func<A, B, C, D, E, F, G, H, I, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g, h, i) => action(a, b, c, d, e, f, g, h, i).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J>
-// {
-//     public Cmd<A, B, C, D, E, F, G, H, I, J> WithAction(Func<A, B, C, D, E, F, G, H, I, J, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult),
-// 					self.inputH.GetValue(parseResult),
-// 					self.inputI.GetValue(parseResult),
-// 					self.inputJ.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G, H, I, J> WithAction(Func<A, B, C, D, E, F, G, H, I, J, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g, h, i, j) => action(a, b, c, d, e, f, g, h, i, j).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>
-// {
-//     public Cmd<A, B, C, D, E, F, G, H, I, J, K> WithAction(Func<A, B, C, D, E, F, G, H, I, J, K, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult),
-// 					self.inputH.GetValue(parseResult),
-// 					self.inputI.GetValue(parseResult),
-// 					self.inputJ.GetValue(parseResult),
-// 					self.inputK.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G, H, I, J, K> WithAction(Func<A, B, C, D, E, F, G, H, I, J, K, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g, h, i, j, k) => action(a, b, c, d, e, f, g, h, i, j, k).Map(_ => 0));
-//     }
-// }
-//
-// public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>
-// {
-//     public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> WithAction(Func<A, B, C, D, E, F, G, H, I, J, K, L, IO<int>> action)
-//     {
-//         var self = this;
-//         return self with
-//         {
-//             SetAction = command =>
-//                 command.SetAction((parseResult, ct) => action(self.inputA.GetValue(parseResult),
-// 					self.inputB.GetValue(parseResult),
-// 					self.inputC.GetValue(parseResult),
-// 					self.inputD.GetValue(parseResult),
-// 					self.inputE.GetValue(parseResult),
-// 					self.inputF.GetValue(parseResult),
-// 					self.inputG.GetValue(parseResult),
-// 					self.inputH.GetValue(parseResult),
-// 					self.inputI.GetValue(parseResult),
-// 					self.inputJ.GetValue(parseResult),
-// 					self.inputK.GetValue(parseResult),
-// 					self.inputL.GetValue(parseResult))
-//             // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
-//                         .RunAsync(EnvIO.New(token: ct))
-//                         .AsTask())
-//         };
-//     }
-//     
-//     public Cmd<A, B, C, D, E, F, G, H, I, J, K, L> WithAction(Func<A, B, C, D, E, F, G, H, I, J, K, L, IO<Unit>> action)
-//     {
-//         var self = this;
-//         return WithAction((a, b, c, d, e, f, g, h, i, j, k, l) => action(a, b, c, d, e, f, g, h, i, j, k, l).Map(_ => 0));
-//     }
-// }
+
+using System.CommandLine;
+using LanguageExt;
+namespace CommandLine.Immutable;
+
+public static class CmdExtensions
+{
+        
+    public static Cmd<A> WithAction<A>(this Cmd<A> cmd, Func<A, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A> WithAction<A>(this Cmd<A> cmd, Func<A, IO<Unit>> action) 
+        => cmd.WithAction((a) => action(a).Map(_ => 0));
+    
+    public static Cmd<A, B> WithAction<A, B>(this Cmd<A, B> cmd, Func<A, B, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B> WithAction<A, B>(this Cmd<A, B> cmd, Func<A, B, IO<Unit>> action) 
+        => cmd.WithAction((a, b) => action(a, b).Map(_ => 0));
+    
+    public static Cmd<A, B, C> WithAction<A, B, C>(this Cmd<A, B, C> cmd, Func<A, B, C, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C> WithAction<A, B, C>(this Cmd<A, B, C> cmd, Func<A, B, C, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c) => action(a, b, c).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D> WithAction<A, B, C, D>(this Cmd<A, B, C, D> cmd, Func<A, B, C, D, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D> WithAction<A, B, C, D>(this Cmd<A, B, C, D> cmd, Func<A, B, C, D, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d) => action(a, b, c, d).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E> WithAction<A, B, C, D, E>(this Cmd<A, B, C, D, E> cmd, Func<A, B, C, D, E, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E> WithAction<A, B, C, D, E>(this Cmd<A, B, C, D, E> cmd, Func<A, B, C, D, E, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e) => action(a, b, c, d, e).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F> WithAction<A, B, C, D, E, F>(this Cmd<A, B, C, D, E, F> cmd, Func<A, B, C, D, E, F, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F> WithAction<A, B, C, D, E, F>(this Cmd<A, B, C, D, E, F> cmd, Func<A, B, C, D, E, F, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f) => action(a, b, c, d, e, f).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G> WithAction<A, B, C, D, E, F, G>(this Cmd<A, B, C, D, E, F, G> cmd, Func<A, B, C, D, E, F, G, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G> WithAction<A, B, C, D, E, F, G>(this Cmd<A, B, C, D, E, F, G> cmd, Func<A, B, C, D, E, F, G, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g) => action(a, b, c, d, e, f, g).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G, H> WithAction<A, B, C, D, E, F, G, H>(this Cmd<A, B, C, D, E, F, G, H> cmd, Func<A, B, C, D, E, F, G, H, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult),
+					cmd.inputH.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G, H> WithAction<A, B, C, D, E, F, G, H>(this Cmd<A, B, C, D, E, F, G, H> cmd, Func<A, B, C, D, E, F, G, H, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g, h) => action(a, b, c, d, e, f, g, h).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I> WithAction<A, B, C, D, E, F, G, H, I>(this Cmd<A, B, C, D, E, F, G, H, I> cmd, Func<A, B, C, D, E, F, G, H, I, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult),
+					cmd.inputH.GetValue(parseResult),
+					cmd.inputI.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I> WithAction<A, B, C, D, E, F, G, H, I>(this Cmd<A, B, C, D, E, F, G, H, I> cmd, Func<A, B, C, D, E, F, G, H, I, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g, h, i) => action(a, b, c, d, e, f, g, h, i).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J> WithAction<A, B, C, D, E, F, G, H, I, J>(this Cmd<A, B, C, D, E, F, G, H, I, J> cmd, Func<A, B, C, D, E, F, G, H, I, J, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult),
+					cmd.inputH.GetValue(parseResult),
+					cmd.inputI.GetValue(parseResult),
+					cmd.inputJ.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J> WithAction<A, B, C, D, E, F, G, H, I, J>(this Cmd<A, B, C, D, E, F, G, H, I, J> cmd, Func<A, B, C, D, E, F, G, H, I, J, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g, h, i, j) => action(a, b, c, d, e, f, g, h, i, j).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J, K> WithAction<A, B, C, D, E, F, G, H, I, J, K>(this Cmd<A, B, C, D, E, F, G, H, I, J, K> cmd, Func<A, B, C, D, E, F, G, H, I, J, K, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult),
+					cmd.inputH.GetValue(parseResult),
+					cmd.inputI.GetValue(parseResult),
+					cmd.inputJ.GetValue(parseResult),
+					cmd.inputK.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J, K> WithAction<A, B, C, D, E, F, G, H, I, J, K>(this Cmd<A, B, C, D, E, F, G, H, I, J, K> cmd, Func<A, B, C, D, E, F, G, H, I, J, K, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g, h, i, j, k) => action(a, b, c, d, e, f, g, h, i, j, k).Map(_ => 0));
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J, K, L> WithAction<A, B, C, D, E, F, G, H, I, J, K, L>(this Cmd<A, B, C, D, E, F, G, H, I, J, K, L> cmd, Func<A, B, C, D, E, F, G, H, I, J, K, L, IO<int>> action)
+    {
+        return cmd with
+        {
+            SetAction = command =>
+                command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
+					cmd.inputB.GetValue(parseResult),
+					cmd.inputC.GetValue(parseResult),
+					cmd.inputD.GetValue(parseResult),
+					cmd.inputE.GetValue(parseResult),
+					cmd.inputF.GetValue(parseResult),
+					cmd.inputG.GetValue(parseResult),
+					cmd.inputH.GetValue(parseResult),
+					cmd.inputI.GetValue(parseResult),
+					cmd.inputJ.GetValue(parseResult),
+					cmd.inputK.GetValue(parseResult),
+					cmd.inputL.GetValue(parseResult))
+                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .RunAsync(EnvIO.New(token: ct))
+                    .AsTask())
+        };
+    }
+    
+    public static Cmd<A, B, C, D, E, F, G, H, I, J, K, L> WithAction<A, B, C, D, E, F, G, H, I, J, K, L>(this Cmd<A, B, C, D, E, F, G, H, I, J, K, L> cmd, Func<A, B, C, D, E, F, G, H, I, J, K, L, IO<Unit>> action) 
+        => cmd.WithAction((a, b, c, d, e, f, g, h, i, j, k, l) => action(a, b, c, d, e, f, g, h, i, j, k, l).Map(_ => 0));
+}
+
