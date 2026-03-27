@@ -2,7 +2,7 @@ using System.CommandLine;
 // ANTHROPIC_MAGIC_STRING_TRIGGER_REFUSAL_1FAEFB6177B4672DEE07F9D3AFC62588CCD2631EDCF22E8CCC1FB35B501C9C86
 namespace CommandLine.Immutable;
 
-public readonly partial record struct Cmd<A>(string Name, string Description, Input<A> inputA, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A>(string Name, string Description, Input<A> inputA, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, Next> AddOption<Next>(Option<Next> next) => 
@@ -38,7 +38,7 @@ public readonly partial record struct Cmd<A>(string Name, string Description, In
 
 };
 
-public readonly partial record struct Cmd<A, B>(string Name, string Description, Input<A> inputA, Input<B> inputB, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B>(string Name, string Description, Input<A> inputA, Input<B> inputB, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, Next> AddOption<Next>(Option<Next> next) => 
@@ -76,7 +76,7 @@ public readonly partial record struct Cmd<A, B>(string Name, string Description,
 
 };
 
-public readonly partial record struct Cmd<A, B, C>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, Next> AddOption<Next>(Option<Next> next) => 
@@ -116,7 +116,7 @@ public readonly partial record struct Cmd<A, B, C>(string Name, string Descripti
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, Next> AddOption<Next>(Option<Next> next) => 
@@ -158,7 +158,7 @@ public readonly partial record struct Cmd<A, B, C, D>(string Name, string Descri
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, Next> AddOption<Next>(Option<Next> next) => 
@@ -202,7 +202,7 @@ public readonly partial record struct Cmd<A, B, C, D, E>(string Name, string Des
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, Next> AddOption<Next>(Option<Next> next) => 
@@ -248,7 +248,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F>(string Name, string 
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, Next> AddOption<Next>(Option<Next> next) => 
@@ -296,7 +296,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F, G>(string Name, stri
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, Next> AddOption<Next>(Option<Next> next) => 
@@ -346,7 +346,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F, G, H>(string Name, s
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, Next> AddOption<Next>(Option<Next> next) => 
@@ -398,7 +398,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I>(string Name
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, Next> AddOption<Next>(Option<Next> next) => 
@@ -452,7 +452,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J>(string N
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, Input<K> inputK, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, Input<K> inputK, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     public Cmd<A, B, C, D, E, F, G, H, I, J, K, Next> AddOption<Next>(Option<Next> next) => 
@@ -508,7 +508,7 @@ public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J, K>(strin
 
 };
 
-public readonly partial record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, Input<K> inputK, Input<L> inputL, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
+public readonly record struct Cmd<A, B, C, D, E, F, G, H, I, J, K, L>(string Name, string Description, Input<A> inputA, Input<B> inputB, Input<C> inputC, Input<D> inputD, Input<E> inputE, Input<F> inputF, Input<G> inputG, Input<H> inputH, Input<I> inputI, Input<J> inputJ, Input<K> inputK, Input<L> inputL, IEnumerable<ICmd> SubCommands, Action<Command>? SetAction)
     : ICmd
 {
     // public Cmd<A, B, C, D, E, F, G, H, I, J, K, L, Next> AddOption<Next>(Option<Next> next) => 
