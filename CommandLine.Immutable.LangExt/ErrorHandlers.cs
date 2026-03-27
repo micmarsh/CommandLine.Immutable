@@ -1,5 +1,4 @@
 using System.CommandLine;
-using System.Runtime.CompilerServices;
 using LanguageExt.Common;
 
 namespace CommandLine.Immutable;

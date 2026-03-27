@@ -12,7 +12,7 @@ public static class CmdExtensions
         {
             SetAction = command =>
                 command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -28,7 +28,7 @@ public static class CmdExtensions
             SetAction = command =>
                 command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
 					cmd.inputB.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -45,7 +45,7 @@ public static class CmdExtensions
                 command.SetAction((parseResult, ct) => action(cmd.inputA.GetValue(parseResult),
 					cmd.inputB.GetValue(parseResult),
 					cmd.inputC.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -63,7 +63,7 @@ public static class CmdExtensions
 					cmd.inputB.GetValue(parseResult),
 					cmd.inputC.GetValue(parseResult),
 					cmd.inputD.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -82,7 +82,7 @@ public static class CmdExtensions
 					cmd.inputC.GetValue(parseResult),
 					cmd.inputD.GetValue(parseResult),
 					cmd.inputE.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -102,7 +102,7 @@ public static class CmdExtensions
 					cmd.inputD.GetValue(parseResult),
 					cmd.inputE.GetValue(parseResult),
 					cmd.inputF.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -123,7 +123,7 @@ public static class CmdExtensions
 					cmd.inputE.GetValue(parseResult),
 					cmd.inputF.GetValue(parseResult),
 					cmd.inputG.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -145,7 +145,7 @@ public static class CmdExtensions
 					cmd.inputF.GetValue(parseResult),
 					cmd.inputG.GetValue(parseResult),
 					cmd.inputH.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -168,7 +168,7 @@ public static class CmdExtensions
 					cmd.inputG.GetValue(parseResult),
 					cmd.inputH.GetValue(parseResult),
 					cmd.inputI.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -192,7 +192,7 @@ public static class CmdExtensions
 					cmd.inputH.GetValue(parseResult),
 					cmd.inputI.GetValue(parseResult),
 					cmd.inputJ.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -217,7 +217,7 @@ public static class CmdExtensions
 					cmd.inputI.GetValue(parseResult),
 					cmd.inputJ.GetValue(parseResult),
 					cmd.inputK.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
@@ -243,7 +243,7 @@ public static class CmdExtensions
 					cmd.inputJ.GetValue(parseResult),
 					cmd.inputK.GetValue(parseResult),
 					cmd.inputL.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
