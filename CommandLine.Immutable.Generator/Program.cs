@@ -1,6 +1,7 @@
 ﻿
 using System.CommandLine;
 using CommandLine.Immutable;
+using CommandLine.Immutable.LangExt.Inputs;
 
 const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var lowercase = uppercase.ToLower();
@@ -11,15 +12,9 @@ Option<FileInfo> templatePath = new("--template", "-t")
     Description = "The template file location"
 };
 
-//todo use LangExt Options (Optional system saved in gist?) instead of this hack
-var stdoutFlag = $"TO-STDOUT-{new Random().GetString(uppercase, 10)}";
 
-Option<FileInfo> outputPath = new("--output", "-o")
-{
-    Description = "Where to save the output",
-    DefaultValueFactory = _ => new FileInfo(stdoutFlag),
-    Required = false
-};
+var outputPath = Optional.Opt<FileInfo>("--output", "-o")
+    .With(Description: "Where to save the output");
 
 Option<uint> typesCount = new("--number", "-n")
 {
@@ -37,7 +32,7 @@ var program = Cmd.New("app", "Generates a file with Cmd types with up to the spe
 
 program.Parse(args).Invoke();
 
-int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
+int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint numTypes)
 {
     var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
@@ -47,14 +42,8 @@ int RunCmdGenerate(FileInfo input, FileInfo output, uint numTypes)
         generatedTypes.Prepend(fullInputFile[2])
             .Prepend(fullInputFile[1])
             .Prepend(fullInputFile[0]));
-    if (output.Name ==  stdoutFlag)
-    {
-        Console.WriteLine(fullOutput);
-    }
-    else
-    {
-        File.WriteAllText(output.FullName, fullOutput);
-    }
+    output.Match(fileInfo => File.WriteAllText(fileInfo.FullName, fullOutput),
+        () => Console.WriteLine(fullOutput));
     return 0;
 }
 
