@@ -12,7 +12,7 @@ public static class CmdTemplateExtensions
         {
             SetAction = command =>
                 command.SetAction((parseResult, ct) => action(cmd.placeholderFields.GetValue(parseResult))
-                    // .Catch(err => LangEx.defaultErrorHandler(err, parseResult))
+                    .Catch(err => ErrorHandlers.@default(err, parseResult))
                     .RunAsync(EnvIO.New(token: ct))
                     .AsTask())
         };
