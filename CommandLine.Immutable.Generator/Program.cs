@@ -1,6 +1,7 @@
 ﻿
 using System.CommandLine;
 using CommandLine.Immutable;
+using static LanguageExt.Prelude;
 
 const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var lowercase = uppercase.ToLower();
@@ -24,8 +25,7 @@ Option<FileInfo> templatePath = new("--template", "-t")
     Description = "The template file location"
 };
 
-
-var outputPath = Optional.Opt<FileInfo>("--output", "-o")
+var outputPath = OptionalInput.Opt<FileInfo>("--output", "-o")
     .With(Description: "Where to save the output");
 
 Option<uint> typesCount = new("--number", "-n")
@@ -83,8 +83,7 @@ int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint num
 
 string GenerateType(string template, string selfVar, int num)
 {
-    var typeParams = uppercase.Take(num);
-    //todo Seq to avoid multiple enumeration (maybe can use LangExt Range above)
+    var typeParams = toSeq(uppercase.Take(num));
     var fields = typeParams.Select(type => $"input{type}");
 
     var fieldsInConst = typeParams.Zip(fields)

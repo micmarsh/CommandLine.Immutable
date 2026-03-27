@@ -3,7 +3,7 @@ using static LanguageExt.Prelude;
 
 namespace CommandLine.Immutable;
 
-public static class Optional
+public static class OptionalInput
 {
     public static System.CommandLine.Option<Option<T>> Opt<T>(string name, params string[] aliases) =>
         new (name, aliases)
