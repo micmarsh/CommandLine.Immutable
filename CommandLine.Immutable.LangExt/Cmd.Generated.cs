@@ -1,6 +1,6 @@
 using System.CommandLine;
 using LanguageExt;
-namespace CommandLine.Immutable.Generator;
+namespace CommandLine.Immutable;
 
 public readonly partial record struct Cmd<A>
 {

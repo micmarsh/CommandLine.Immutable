@@ -38,7 +38,7 @@ int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint num
     var typeTemplate = string.Join(Environment.NewLine, fullInputFile.Skip(4));
     var generatedTypes = Enumerable.Range(1, count).Select(num => GenerateType(typeTemplate, num));
     var fullOutput = string.Join(Environment.NewLine, 
-        generatedTypes.Prepend(fullInputFile[2])
+        generatedTypes.Prepend("namespace CommandLine.Immutable;")
             .Prepend(fullInputFile[1])
             .Prepend(fullInputFile[0]));
     output.Match(fileInfo => File.WriteAllText(fileInfo.FullName, fullOutput),
