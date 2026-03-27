@@ -2,9 +2,10 @@ using System.CommandLine;
 using LanguageExt;
 namespace CommandLine.Immutable.Generator;
 
-
 public static class CmdTemplateExtensions
 {
+    // GENERATOR PROGRAM WILL DROP UP TO LINE 7 AND LAST LINE (WITH }), REWRITE THIS ACCORDINGLY
+    
     public static CmdTemplate<PLACEHOLDER> WithAction<PLACEHOLDER>(this CmdTemplate<PLACEHOLDER> cmd, Func<PLACEHOLDER, IO<int>> action)
     {
         return cmd with
