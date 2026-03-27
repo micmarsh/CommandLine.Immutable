@@ -59,7 +59,7 @@ int RunLangExtGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint
     var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
     var template = string.Join(Environment.NewLine, fullInputFile.Skip(7).SkipLast(1));
-    var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, num));
+    var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, "cmd", num));
     var fullOutput = LangExtFile.Replace(LangExtExtMethods, string.Join(Environment.NewLine, generated));
     output.Match(fileInfo => File.WriteAllText(fileInfo.FullName, fullOutput),
         () => Console.WriteLine(fullOutput));
@@ -71,7 +71,7 @@ int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint num
     var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
     var template = string.Join(Environment.NewLine, fullInputFile.Skip(4));
-    var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, num));
+    var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, "self", num));
     var fullOutput = string.Join(Environment.NewLine, 
         generated.Prepend("namespace CommandLine.Immutable;")
             .Prepend(fullInputFile[1])
@@ -81,7 +81,7 @@ int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint num
     return 0;
 }
 
-string GenerateType(string template, int num)
+string GenerateType(string template, string selfVar, int num)
 {
     var typeParams = uppercase.Take(num);
     //todo Seq to avoid multiple enumeration (maybe can use LangExt Range above)
@@ -91,7 +91,7 @@ string GenerateType(string template, int num)
         .Select(pair => $"Input<{pair.First}> {pair.Second}");
 
     var valueLookups = fields
-        .Select(field => $"self.{field}.GetValue(parseResult)");
+        .Select(field => $"{selfVar}.{field}.GetValue(parseResult)");
     var inputAdds = fields
         .Select(field => $"{field}.AddTo(result);");
 
@@ -101,7 +101,7 @@ string GenerateType(string template, int num)
         .Replace("CmdTemplate", "Cmd")
         .Replace("Input<PLACEHOLDER> placeholderFields", string.Join(", ", fieldsInConst))
         .Replace("PLACEHOLDER", string.Join(", ", typeParams))
-        .Replace("self.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}\t\t\t\t\t", valueLookups))
+        .Replace($"{selfVar}.placeholderFields.GetValue(parseResult)", string.Join($",{Environment.NewLine}\t\t\t\t\t", valueLookups))
         .Replace("placeholderFields.AddTo(result);", string.Join($"{Environment.NewLine}\t\t", inputAdds))
         .Replace("placeholderFields", string.Join(", ", fields))
         .Replace("placeHolder", string.Join(", ", parsedVars));
