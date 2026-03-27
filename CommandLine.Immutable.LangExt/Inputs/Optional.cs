@@ -1,7 +1,7 @@
 using LanguageExt;
 using static LanguageExt.Prelude;
 
-namespace CommandLine.Immutable.LangExt.Inputs;
+namespace CommandLine.Immutable;
 
 public static class Optional
 {

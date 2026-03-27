@@ -4,9 +4,9 @@ using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 using LanguageExt;
 using LanguageExt.Common;
-using static CommandLine.Immutable.LangExt.Inputs.Parsing;
+using static CommandLine.Immutable.Parsing;
 
-namespace CommandLine.Immutable.LangExt.Inputs;
+namespace CommandLine.Immutable;
 
 public static class Extensions
 {

@@ -1,7 +1,6 @@
 ﻿
 using System.CommandLine;
 using CommandLine.Immutable;
-using CommandLine.Immutable.LangExt.Inputs;
 
 const string uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var lowercase = uppercase.ToLower();

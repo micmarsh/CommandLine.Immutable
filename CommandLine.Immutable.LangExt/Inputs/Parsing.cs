@@ -4,7 +4,7 @@ using System.CommandLine.Parsing;
 using LanguageExt;
 using LanguageExt.Common;
 
-namespace CommandLine.Immutable.LangExt.Inputs;
+namespace CommandLine.Immutable;
 
 public static class Parsing
 {
