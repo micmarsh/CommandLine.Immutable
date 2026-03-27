@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CommandLine.Immutable\CommandLine.Immutable.csproj" />
+        <ProjectReference Include="..\CommandLine.Immutable.LangExt\CommandLine.Immutable.LangExt.csproj" />
     </ItemGroup>
 
 </Project>
