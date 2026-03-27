@@ -8,6 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="LanguageExt.Core">
+        <HintPath>..\..\..\.nuget\packages\languageext.core\5.0.0-beta-77\lib\net10.0\LanguageExt.Core.dll</HintPath>
+      </Reference>
       <Reference Include="System.CommandLine">
         <HintPath>..\..\..\.nuget\packages\system.commandline\2.0.5\lib\net8.0\System.CommandLine.dll</HintPath>
       </Reference>

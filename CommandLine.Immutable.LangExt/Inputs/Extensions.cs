@@ -10,9 +10,8 @@ namespace CommandLine.Immutable.LangExt.Inputs;
 
 public static class Extensions
 {
-    
     /// <summary>
-    /// Helper method to make setting properties on Options for functional, as well as auto-converting validation, parsing,
+    /// Helper method to make setting properties on Options immutable/functional, as well as auto-converting validation, parsing,
     /// and factory properties using <see cref="Parsing"/>
     /// </summary>
     public static System.CommandLine.Option<T> With<T>(this System.CommandLine.Option<T> opt,
@@ -54,7 +53,7 @@ public static class Extensions
     } 
     
     /// <summary>
-    /// Helper method to make setting properties on Options for functional, as well as auto-converting validation, parsing,
+    /// Helper method to make setting properties on Arguments immutable/functional, as well as auto-converting validation, parsing,
     /// and factory properties using <see cref="Parsing"/>
     /// </summary>
     public static Argument<T> With<T>(this System.CommandLine.Argument<T> opt,
