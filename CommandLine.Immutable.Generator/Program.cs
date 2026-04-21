@@ -49,10 +49,9 @@ var langExtLibCmd = Cmd.New("lang-ext", "Generates a file with extension methods
 
 var program = Cmd.New("app", "Helpers for generating the types this library uses")
     .AddSub(mainLibCmd)
-    .AddSub(langExtLibCmd)
-    .ToRoot();
+    .AddSub(langExtLibCmd);
 
-program.Parse(args).Invoke();
+program.Run(args);
 
 int RunLangExtGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint numTypes)
 {

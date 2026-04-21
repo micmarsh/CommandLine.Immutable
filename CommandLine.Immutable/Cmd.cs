@@ -56,4 +56,7 @@ public static class CommandExt
         root.Action = command.Action;
         return root;
     }
+
+    public static int Run(this ICmd command, string[] args) =>
+        command.ToRoot().Parse(args).Invoke();
 }
