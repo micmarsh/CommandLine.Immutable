@@ -5,12 +5,20 @@ namespace CommandLine.Immutable.Tests;
 public class OptionalInputTests
 {
     private const int DefaultProgramReturn = 123;
-    private static readonly Cmd<Option<int>> OptionalOptTestProgram = Cmd.New("test", "test")
+    private static readonly ICmd OptionalOptTestProgram = Cmd.New("test", "test")
         .AddOption(OptionalInput.Opt<int>("--test-int", "-ti"))
-        .WithAction(test => test.IfNone(DefaultProgramReturn));
+        .AddArgument(OptionalInput.Arg<bool>("test-bool"))
+        .WithAction((i, b) => i.IfNone(DefaultProgramReturn));
 
     [Fact]
-    public void OptionalOption_WhenProvided_ShouldNotInfiniteLoop()
+    public void OptionalOption_WhenArgProvided_ShouldNotInfiniteLoop()
+    {
+        Assert.Equal(DefaultProgramReturn, OptionalOptTestProgram.Run(["false"]));
+    }
+
+    
+    [Fact]
+    public void OptionalOption_WhenOptProvided_ShouldNotInfiniteLoop()
     {
         Assert.Equal(3, OptionalOptTestProgram.Run(["-ti", "3"]));
     }

@@ -9,7 +9,6 @@ public static class OptionalInput
         new (name, aliases)
         {
             DefaultValueFactory = _ => None,
-            CustomParser = r => Optional(r.GetValueOrDefault<T>()),
             Required = false
         };
     
