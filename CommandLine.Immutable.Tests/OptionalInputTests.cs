@@ -46,12 +46,12 @@ public class OptionalInputTests
     [Fact]
     public void OptionOption_WhenDirectoryInfo_ShouldParse()
     {
-        Assert.Equal(0, GetFileSystemProgram<DirectoryInfo>().Run(["test/dir", "--test", "test/dir"]));
+        Assert.Equal(0, GetFileSystemProgram<DirectoryInfo>().Run(["test/dir/", "--test", "test/dir/"]));
     }
     
     [Fact]
     public void OptionOption_WhenFileSystemInfo_ShouldParse()
     {
-        Assert.Equal(0, GetFileSystemProgram<FileSystemInfo>().Run(["test/dir", "--test", "test.file"]));
+        Assert.Equal(0, GetFileSystemProgram<FileSystemInfo>().Run(["test/dir/", "--test", "test.file"]));
     }
 }

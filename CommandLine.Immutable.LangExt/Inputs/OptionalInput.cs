@@ -1,3 +1,4 @@
+using System.Reflection;
 using LanguageExt;
 using static LanguageExt.Prelude;
 
@@ -7,6 +8,7 @@ public static class OptionalInput
 {
     public static System.CommandLine.Option<Option<T>> Opt<T>(string name, params string[] aliases) 
         where T : IParsable<T> =>
+       // typeof(T).GetMethod("Parse", BindingFlags.Static | BindingFlags.Public)
         new (name, aliases)
         {
             DefaultValueFactory = _ => None,
