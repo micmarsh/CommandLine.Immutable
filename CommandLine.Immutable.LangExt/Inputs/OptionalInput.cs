@@ -10,7 +10,7 @@ public static class OptionalInput
         new (name, aliases)
         {
             DefaultValueFactory = _ => None,
-            CustomParser = r => r.Tokens switch
+            CustomParser = r =>  r.Tokens switch
             {
                 [] => None,
                 [var token, ..] => Some(T.Parse(token.Value, null))
