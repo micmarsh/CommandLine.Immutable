@@ -1,4 +1,6 @@
-﻿using LanguageExt;
+﻿using System.Text;
+using LanguageExt;
+using Xunit.Abstractions;
 
 namespace CommandLine.Immutable.Tests;
 
@@ -18,6 +20,14 @@ public class OptionalInputTests
             .AddArgument(OptionalInput.Arg<T>("test"))
             .WithAction((_1, _2) => 0);
 
+    public OptionalInputTests(ITestOutputHelper output)
+    {
+        // this doesn't seem to work for some reason, but good to keep around 
+        Console.SetOut(new TestOutputWriter(output));
+        Console.SetError(new TestOutputWriter(output));
+    }
+    
+    
     [Fact]
     public void OptionalOption_WhenArgProvided_ShouldNotInfiniteLoop()
     {
@@ -37,6 +47,7 @@ public class OptionalInputTests
         Assert.Equal(DefaultProgramReturn, OptionalPrimitivesTestProgram.Run([]));
     }
 
+    // still not working and not printing! even with hack! What gives?
     [Fact]
     public void OptionOption_WhenFileInfo_ShouldParse()
     {
@@ -53,5 +64,33 @@ public class OptionalInputTests
     public void OptionOption_WhenFileSystemInfo_ShouldParse()
     {
         Assert.Equal(0, GetFileSystemProgram<FileSystemInfo>().Run(["test/dir/", "--test", "test.file"]));
+    }
+    
+    private class TestOutputWriter(ITestOutputHelper output) : TextWriter
+    {
+        public override Encoding Encoding => Console.OutputEncoding;
+
+        public override void WriteLine(string message)
+        {
+            output.WriteLine(message);
+        }
+        public override void WriteLine(string format, params object[] args)
+        {
+            output.WriteLine(format, args);
+        }
+
+        private readonly List<char> Buffer = new List<char>();
+        public override void Write(char value)
+        {
+            if (Environment.NewLine.Contains(value))
+            {
+                output.WriteLine(string.Join("", Buffer));
+                Buffer.Clear();
+            }
+            else
+            {
+                Buffer.Add(value);
+            }        
+        }
     }
 }
