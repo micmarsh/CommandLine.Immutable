@@ -26,11 +26,11 @@ Option<FileInfo> templatePath = new("--template", "-t")
 };
 
 var outputPath = OptionalInput.Opt<FileInfo>("--output", "-o")
-    .With(Description: "Where to save the output");
+    .With(Description: "Where to save the output, program will utlize stdout if this isn't provided");
 
 Option<uint> typesCount = new("--number", "-n")
 {
-    Description = "Max number of of generic types to generate (max 26)",
+    Description = "Number of of generic types to generate (max 26)",
     DefaultValueFactory = _ => 5,
     Required = false
 };
