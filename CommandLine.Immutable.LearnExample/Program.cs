@@ -25,10 +25,8 @@ var addCommand = Cmd.New("add", "Add an entry to the file.")
 addCommand.Aliases.Add("insert");
 
 Cmd.New("root", "Sample app for System.CommandLine")
-    .AddOption(fileOption)
     .AddSub(Cmd.New("quotes", "Work with a file that contains quotes.")
         .AddSub(readCmd)
         .AddSub(deleteCmd)
         .AddSub(addCommand))
-    .ToRoot()
-    .Parse(args).Invoke();
+    .Run(args);
