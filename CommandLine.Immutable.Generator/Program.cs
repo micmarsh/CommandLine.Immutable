@@ -57,9 +57,13 @@ int RunLangExtGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint
 {
     var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
+    
     var template = string.Join(Environment.NewLine, fullInputFile.Skip(7).SkipLast(1));
+    
     var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, "cmd", num));
+    
     var fullOutput = LangExtFile.Replace(LangExtExtMethods, string.Join(Environment.NewLine, generated));
+    
     output.Match(fileInfo => File.WriteAllText(fileInfo.FullName, fullOutput),
         () => Console.WriteLine(fullOutput));
     return 0;
@@ -69,12 +73,16 @@ int RunCmdGenerate(FileInfo input, LanguageExt.Option<FileInfo> output, uint num
 {
     var count = Math.Min((int)numTypes, uppercase.Length);
     var fullInputFile = File.ReadAllLines(input.FullName);
+    
     var template = string.Join(Environment.NewLine, fullInputFile.Skip(4));
+    
     var generated = Enumerable.Range(1, count).Select(num => GenerateType(template, "self", num));
+    
     var fullOutput = string.Join(Environment.NewLine, 
         generated.Prepend("namespace CommandLine.Immutable;")
             .Prepend(fullInputFile[1])
             .Prepend(fullInputFile[0]));
+    
     output.Match(fileInfo => File.WriteAllText(fileInfo.FullName, fullOutput),
         () => Console.WriteLine(fullOutput));
     return 0;
