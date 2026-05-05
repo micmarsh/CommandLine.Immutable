@@ -12,6 +12,11 @@ public class OptionalInputTests
         .AddArgument(OptionalInput.Arg<bool>("test-bool"))
         .WithAction((i, b) => i.IfNone(DefaultProgramReturn));
 
+
+    private static readonly ICmd OptionalStringTestProgram = Cmd.New("test", "test")
+        .AddArgument(OptionalInput.Arg<string>("test"))
+        .AddOption(OptionalInput.Opt<string>("--test"))
+        .WithAction((_1, _2) => DefaultProgramReturn);
     
     private static  ICmd GetFileSystemProgram<T>() 
         where T : FileSystemInfo
@@ -39,6 +44,12 @@ public class OptionalInputTests
     public void OptionalOption_WhenOptProvided_ShouldNotInfiniteLoop()
     {
         Assert.Equal(3, OptionalPrimitivesTestProgram.Run(["-ti", "3"]));
+    }
+    
+    [Fact]
+    public void OptionalString_WhenProvided_ShouldWork()
+    {
+        Assert.Equal(DefaultProgramReturn, OptionalStringTestProgram.Run(["--test", "string1", "string2"]));
     }
     
     [Fact]

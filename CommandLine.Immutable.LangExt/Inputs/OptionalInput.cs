@@ -23,11 +23,15 @@ public static class OptionalInput
             [{ Value: var str }] => ParseToOption<T>(str),
             [_, ..] => throw new ArgumentException($"Only single-token inputs are supported for {name}")
         };
-
+    
     private static Option<T> ParseToOption<T>(string str)
     {
         var type = typeof(T);
-        if (ArgumentConverter.StringConverters[type](str, out var result))
+        if (!ArgumentConverter.StringConverters.TryGetValue(type, out var converter))
+        {
+            throw new ArgumentException($"Could not find converter for {type.Name} (TODO: create introduce a mechanism to add global custom? What does System.CommandLine do?)")
+        }
+        if (converter(str, out var result))
         {
             return Optional((T?)result);
         }
