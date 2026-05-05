@@ -29,7 +29,8 @@ public static class OptionalInput
         var type = typeof(T);
         if (!ArgumentConverter.StringConverters.TryGetValue(type, out var converter))
         {
-            throw new ArgumentException($"Could not find converter for {type.Name} (TODO: create introduce a mechanism to add global custom? What does System.CommandLine do?)")
+            throw new ArgumentException(
+                $"Could not find converter for {type.Name} (TODO: create introduce a mechanism to add global custom? What does System.CommandLine do?)");
         }
         if (converter(str, out var result))
         {
