@@ -8,12 +8,27 @@ public static class ArgumentConverter
     /// <summary>
     /// Copy-pasted from decompiled <see cref="System.CommandLine.Binding.ArgumentConverter.TryConvertString"/>
     /// </summary>
-    public delegate bool TryConvertString(string token, out object? value);
+    private delegate bool TryConvertString(string token, out object? value);
 
+    public static ConversionResult<T> Convert<T>(string value)
+    {
+        var type = typeof(T);
+        if (!StringConverters.TryGetValue(type, out var converter))
+        {
+            return new NoConverter<T>();
+        }
+        if (converter(value, out var result))
+        {
+            return new Success<T>((T?)result);
+        }
+
+        return new ConvertFailed<T>();
+    }
+    
     /// <summary>
     /// Copy-pasted from decompiled <see cref="System.CommandLine.Binding.ArgumentConverter.StringConverters"/>
     /// </summary>
-    public static readonly IReadOnlyDictionary<Type, TryConvertString> StringConverters = new Dictionary<Type, TryConvertString>()
+    private static readonly IReadOnlyDictionary<Type, TryConvertString> StringConverters = new Dictionary<Type, TryConvertString>()
     {
         [typeof(bool)] = (string token, out object? value) =>
         {
@@ -288,3 +303,8 @@ public static class ArgumentConverter
         },
     };
 }
+
+public interface ConversionResult<T>;
+public readonly record struct Success<T>(T? Value) : ConversionResult<T>;
+public readonly record struct NoConverter<T> : ConversionResult<T>;
+public readonly record struct ConvertFailed<T> : ConversionResult<T>;

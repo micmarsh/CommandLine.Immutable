@@ -23,22 +23,14 @@ public static class OptionalInput
             [{ Value: var str }] => ParseToOption<T>(str),
             [_, ..] => throw new ArgumentException($"Only single-token inputs are supported for {name}")
         };
-    
-    private static Option<T> ParseToOption<T>(string str)
-    {
-        var type = typeof(T);
-        if (!ArgumentConverter.StringConverters.TryGetValue(type, out var converter))
-        {
-            throw new ArgumentException(
-                $"Could not find converter for {type.Name} (TODO: create introduce a mechanism to add global custom? What does System.CommandLine do?)");
-        }
-        if (converter(str, out var result))
-        {
-            return Optional((T?)result);
-        }
 
-        throw new ArgumentException($"Could not parse {str} into {type.Name}");
-    }
+    private static Option<T> ParseToOption<T>(string str) => ArgumentConverter.Convert<T>(str) switch
+    {
+        Success<T>(var result) => Optional(result),
+        ConvertFailed<T> => throw new ArgumentException($"Could not parse {str} into {typeof(T).Name}"),
+        NoConverter<T> => throw new ArgumentException($"Could not find converter for {typeof(T).Name} (TODO: create introduce a mechanism to add global custom? What does System.CommandLine do?)"),
+        var unknown => throw new ArgumentOutOfRangeException($"Unknown {nameof(ConversionResult<T>)} subtype {unknown.GetType().Name}")
+    };
 
     public static System.CommandLine.Argument<Option<T>> Arg<T>(string name) =>
         new (name)
